@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author karanbirgujral
+ * @author gokumar
  */
 @XmlRootElement
 public class LoginResponse extends ErrorResponse {
