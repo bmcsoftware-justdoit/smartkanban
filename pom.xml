@@ -10,6 +10,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+        <opencv.path>c:/opencv</opencv.path>
+        <!-- Please replace the above path with your local opencv installation dir-->
     </properties>
     <dependencies>
         <dependency>
@@ -17,8 +19,7 @@
             <artifactId>opencv</artifactId>
             <version>3.0.0</version>
             <scope>system</scope>
-            <systemPath>C:/opencv/build/java/opencv-300.jar</systemPath>
-            <!-- Please replace the above file path with your local opencv installation dir-->
+            <systemPath>${opencv.path}/build/java/opencv-300.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
