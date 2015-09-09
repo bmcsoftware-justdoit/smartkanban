@@ -18,7 +18,8 @@
             <artifactId>opencv</artifactId>
             <version>3.0.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/local-libs/opencv-300.jar</systemPath>
+            <systemPath>C:/opencv/build/java/opencv-300.jar</systemPath>
+            <!-- Please replace the above file path with your local opencv installation dir-->
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
