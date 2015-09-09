@@ -37,7 +37,6 @@ public class AuthenticateResource {
      * @Produces("application/json") public LoginResponse postJson(LoginRequest
      * request) {
      *
-     * String token;
      */
     @POST
     @Consumes("application/json")
