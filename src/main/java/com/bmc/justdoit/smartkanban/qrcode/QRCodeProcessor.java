@@ -108,7 +108,6 @@ public class QRCodeProcessor {
         final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         System.arraycopy(b, 0, targetPixels, 0, b.length);
         return image;
-
     }
 
     private static void displayImage(Image img2) {
