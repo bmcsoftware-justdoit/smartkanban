@@ -96,7 +96,7 @@ public class QRCodeProcessor {
         return (x1 >= x && x1 <= (x + width)) && (y1 >= y && y1 <= (y + height));
     }
 
-    private static BufferedImage Mat2BufferedImage(Mat m) {
+    private static BufferedImage mat2BufferedImage(Mat m) {
         int type = BufferedImage.TYPE_BYTE_GRAY;
         if (m.channels() > 1) {
             type = BufferedImage.TYPE_3BYTE_BGR;
