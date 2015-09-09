@@ -11,7 +11,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
         <opencv.path>c:/opencv</opencv.path>
-        <!-- Please replace the above path with your local opencv installation dir-->
+        <!-- Please replace the above path with your local opencv installation 
+        path-->
     </properties>
     <dependencies>
         <dependency>
@@ -66,11 +67,8 @@
                 <version>1.1</version>
                 <configuration>
                     <port>28080</port>
-                    <url>http://localhost:9090/manager</url>
                     <server>TomcatServer</server>
                     <path>/smartkanban</path>
-                    <username>tomcat</username>
-                    <password>tomcat</password>
                 </configuration>
             </plugin>
         </plugins>
