@@ -43,6 +43,10 @@ public class AuthenticateResource {
     @Consumes("application/json")
     @Produces("application/json")
     public LoginResponse postJson(LoginRequest request) {
+        System.out.println("Got request>>>> ");
+        System.out.println("User Name: " + request.getLoginId());
+        System.out.println("User Password: " + request.getPassword());
+        System.out.println("User OrgID: " + request.getOrgId());
         LoginResponse response = null;
         try {
             response = new LoginResponse();
