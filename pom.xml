@@ -22,6 +22,15 @@
             <scope>system</scope>
             <systemPath>${opencv.path}/build/java/opencv-300.jar</systemPath>
         </dependency>
+<!--        <dependency>
+            <groupId>nu.pattern</groupId>
+            <artifactId>opencv_java</artifactId>
+            <version>300</version>
+            <classifier>x64</classifier>
+            <type>dll</type>
+            <scope>system</scope>
+            <systemPath>${opencv.path}/build/java/x64/opencv_java300.dll</systemPath>
+        </dependency>-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
@@ -65,6 +74,20 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
@@ -81,6 +104,9 @@
                     <port>28080</port>
                     <server>TomcatServer</server>
                     <path>/smartkanban</path>
+<!--                    <systemProperties>
+                        <JAVA_OPTS>-Djava.library.path='c:/opencv/build/java/x64'</JAVA_OPTS>
+                    </systemProperties>-->
                 </configuration>
             </plugin>
         </plugins>
