@@ -11,25 +11,25 @@ package com.bmc.justdoit.smartkanban.qrcode;
  */
 public class QRCodeData {
     
-    public QRCodeData(double x, double y, String data){
+    public QRCodeData(float x, float y, String data){
         this.x = x;
         this.y = y;
         this.data = data;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
@@ -40,7 +40,7 @@ public class QRCodeData {
     public void setData(String data) {
         this.data = data;
     }
-    double x;
-    double y;
+    float x;
+    float y;
     String data;
 }

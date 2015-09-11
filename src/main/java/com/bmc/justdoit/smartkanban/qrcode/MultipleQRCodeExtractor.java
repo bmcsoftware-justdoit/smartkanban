@@ -48,16 +48,16 @@ public class MultipleQRCodeExtractor {
             for (ResultPoint resultPoint : rp) {
                 x = resultPoint.getX();
                 y = resultPoint.getY();
-                System.out.println("RP>>>>X " + x);
-                System.out.println("RP>>>>Y " + y);
+//                System.out.println("RP>>>>X " + x);
+//                System.out.println("RP>>>>Y " + y);
                 Point p = new Point(x, y);
                 points.add(p);
             }
             Point finalLocation = MultipleQRCodeExtractor.getTopLeftXY(points);
-            System.out.println("Result:::: " + result.getText());
-            System.out.println("TLC: (" + finalLocation.x + ", " + finalLocation.y + ")");
-            System.out.println("----------------------------------");
-            decodedQRCodeData.add(new QRCodeData((Double) finalLocation.x, (Double) finalLocation.y, result.getText()));
+//            System.out.println("Result:::: " + result.getText());
+//            System.out.println("TLC: (" + finalLocation.x + ", " + finalLocation.y + ")");
+//            System.out.println("----------------------------------");
+            decodedQRCodeData.add(new QRCodeData((Float) finalLocation.x, (Float) finalLocation.y, result.getText()));
         }
         System.out.println("Total: " + decodedQRCodeData.size());
         return decodedQRCodeData;
