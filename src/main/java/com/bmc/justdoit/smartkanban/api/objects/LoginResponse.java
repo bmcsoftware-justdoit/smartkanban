@@ -4,6 +4,7 @@
  */
 package com.bmc.justdoit.smartkanban.api.objects;
 
+import java.util.Map;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -12,17 +13,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class LoginResponse extends ErrorResponse {
-    private String token;
+    private Map<String, String> attributes;
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
 
     public LoginResponse() {
         super();
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }
