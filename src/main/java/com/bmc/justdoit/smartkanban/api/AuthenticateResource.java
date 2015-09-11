@@ -50,7 +50,6 @@ public class AuthenticateResource {
         try {
             response = new LoginResponse();
             response.setObjectId("dummy");
-            response.setToken("dummy");
         } catch (Exception ex) {
             response = new LoginResponse();
             response.setErrorCode(ErrorResponse.NESTED_ERROR);
