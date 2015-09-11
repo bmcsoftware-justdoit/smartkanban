@@ -5,10 +5,13 @@
  */
 package com.bmc.justdoit.smartkanban.qrcode;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author gokumar
  */
+@XmlRootElement
 public class QRCodeData {
     
     public QRCodeData(float x, float y, String data){
