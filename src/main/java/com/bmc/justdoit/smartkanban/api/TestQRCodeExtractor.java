@@ -7,6 +7,8 @@ package com.bmc.justdoit.smartkanban.api;
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
 import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
+import com.bmc.justdoit.smartkanban.api.objects.TestRequest;
+import com.bmc.justdoit.smartkanban.api.objects.TestResponse;
 import com.bmc.justdoit.smartkanban.qrcode.MultipleQRCodeExtractor;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
 import java.util.List;
@@ -38,34 +40,26 @@ public class TestQRCodeExtractor {
 
     /**
      * @POST @Consumes("application/json")
-     * @Produces("application/json") public LoginResponse postJson(LoginRequest
+     * @Produces("application/json") public TestResponse postJson(TestRequest
      * request) {
      *
      */
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public LoginResponse postJson(@Context ServletContext ctx, LoginRequest request) {
-        System.out.println("Got request>>>> " + ctx.getContextPath());
-        System.out.println("Real Path: " + ctx.getRealPath("/WEB-INF/images/"+request.getOrgId()));
-        System.out.println("User file: " + request.getOrgId());
-        LoginResponse response = null;
+    public TestResponse postJson(@Context ServletContext ctx, TestRequest request) {
+        TestResponse response = null;
         try {
-            response = new LoginResponse();
-            response.setObjectId("dummy");
-            response.setToken("dummy");
+            response = new TestResponse();
+            response.setResult("QRCode Decoded Successfully!");
             
-            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getOrgId()));
-            System.out.println("Detected QRCodes: " + qrCodeDataLst.size());
-            for (QRCodeData qRCodeData : qrCodeDataLst) {
-                System.out.println("Location: (" + qRCodeData.getX() + ", " + qRCodeData.getY() + ")");
-                System.out.println("Data: " + qRCodeData.getData());
-            }
+            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getImageFileName()));
+            response.setQrCodes(qrCodeDataLst);
         } catch (Exception ex) {
             ex.printStackTrace();
-            response = new LoginResponse();
+            response = new TestResponse();
             response.setErrorCode(ErrorResponse.NESTED_ERROR);
-            response.setErrorMessage("Could not identify and login user " + request.getLoginId());
+            response.setErrorMessage("Could not decode QRCodes from " + request.getImageFileName());
             response.setErrorTrace(ex.getStackTrace().toString());
         }
         return response;
