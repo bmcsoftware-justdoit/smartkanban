@@ -9,28 +9,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
-        <opencv.path>c:/opencv</opencv.path>
-        <!-- Please replace the above path with your local opencv installation 
-        path-->
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>nu.pattern</groupId>
-            <artifactId>opencv</artifactId>
-            <version>3.0.0</version>
-            <scope>system</scope>
-            <systemPath>${opencv.path}/build/java/opencv-300.jar</systemPath>
-        </dependency>
-<!--        <dependency>
-            <groupId>nu.pattern</groupId>
-            <artifactId>opencv_java</artifactId>
-            <version>300</version>
-            <classifier>x64</classifier>
-            <type>dll</type>
-            <scope>system</scope>
-            <systemPath>${opencv.path}/build/java/x64/opencv_java300.dll</systemPath>
-        </dependency>-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
@@ -69,6 +49,12 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     <build>
@@ -104,9 +90,6 @@
                     <port>28080</port>
                     <server>TomcatServer</server>
                     <path>/smartkanban</path>
-<!--                    <systemProperties>
-                        <JAVA_OPTS>-Djava.library.path='c:/opencv/build/java/x64'</JAVA_OPTS>
-                    </systemProperties>-->
                 </configuration>
             </plugin>
         </plugins>
