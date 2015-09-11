@@ -39,7 +39,7 @@ public class QRCode {
     public String charset;
 
     public QRCode() {
-        charset = "UTF-8"; // or "ISO-8859-1"
+        charset = "ISO-8859-1"; //"UTF-8"; 
         hintMap = new HashMap();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
     }
