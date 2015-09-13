@@ -5,6 +5,9 @@
  */
 package com.bmc.justdoit.smartkanban.qrcode;
 
+import com.bmc.justdoit.smartkanban.kanban.location.Point;
+import com.bmc.justdoit.smartkanban.kanban.location.PointCompareX;
+import com.bmc.justdoit.smartkanban.kanban.location.PointCompareY;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.NotFoundException;
@@ -17,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,7 @@ public class MultipleQRCodeExtractor {
 //            System.out.println("Result:::: " + result.getText());
 //            System.out.println("TLC: (" + finalLocation.x + ", " + finalLocation.y + ")");
 //            System.out.println("----------------------------------");
-            decodedQRCodeData.add(new QRCodeData((Float) finalLocation.x, (Float) finalLocation.y, result.getText()));
+            decodedQRCodeData.add(new QRCodeData(finalLocation, result.getText()));
         }
         System.out.println("Total: " + decodedQRCodeData.size());
         return decodedQRCodeData;
@@ -71,46 +73,5 @@ public class MultipleQRCodeExtractor {
         Collections.sort(newPoints, new PointCompareY());
 
         return newPoints.get(0);
-    }
-}
-
-class Point<X, Y> {
-
-    public final X x;
-    public final Y y;
-
-    public Point(X x, Y y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class PointCompareX
-        implements Comparator<Point> {
-
-    public int compare(final Point a, final Point b) {
-
-        if ((Float) a.x < (Float) b.x) {
-            return -1;
-        } else if ((Float) a.x > (Float) b.x) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
-
-class PointCompareY
-        implements Comparator<Point> {
-
-    public int compare(final Point a, final Point b) {
-
-        if ((Float) a.y < (Float) b.y) {
-            return -1;
-        } else if ((Float) a.y > (Float) b.y) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }

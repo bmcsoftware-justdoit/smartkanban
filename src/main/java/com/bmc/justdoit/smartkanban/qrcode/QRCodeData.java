@@ -5,6 +5,7 @@
  */
 package com.bmc.justdoit.smartkanban.qrcode;
 
+import com.bmc.justdoit.smartkanban.kanban.location.Point;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,26 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class QRCodeData {
     
-    public QRCodeData(float x, float y, String data){
-        this.x = x;
-        this.y = y;
+    public QRCodeData(Point point, String data){
+        this.point = point;
         this.data = data;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     public String getData() {
@@ -43,7 +27,15 @@ public class QRCodeData {
     public void setData(String data) {
         this.data = data;
     }
-    float x;
-    float y;
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+    
+    Point point;
     String data;
 }
