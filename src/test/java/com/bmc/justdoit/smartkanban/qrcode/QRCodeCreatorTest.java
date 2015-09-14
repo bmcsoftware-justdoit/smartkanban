@@ -5,6 +5,8 @@
  */
 package com.bmc.justdoit.smartkanban.qrcode;
 
+import com.bmc.justdoit.smartkanban.qrcode.creator.QRCodeCreator;
+import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeReader;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author gokumar
  */
-public class QRCodeTest {
+public class QRCodeCreatorTest {
 
     /**
      * Test of createQRCode method, of class QRCode.
@@ -28,16 +30,15 @@ public class QRCodeTest {
         String filePath = "./testQRCodeCreate.png";
         int qrCodeheight = 124;
         int qrCodewidth = 124;
-        QRCode instance = new QRCode();
         try {
-            instance.createQRCode(qrCodeData, filePath, qrCodeheight, qrCodewidth);
-            assertEquals("UnitTestCreate", instance.readQRCode(filePath));
+            QRCodeCreator.createQRCode(qrCodeData, filePath, qrCodeheight, qrCodewidth);
+            assertEquals("UnitTestCreate", QRCodeReader.readQRCode(filePath));
         } catch (WriterException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotFoundException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -51,11 +52,10 @@ public class QRCodeTest {
         String filePath = "./testQRCodeCreateThrowException";
         int qrCodeheight = 124;
         int qrCodewidth = 124;
-        QRCode instance = new QRCode();
         try {
-            instance.createQRCode(qrCodeData, filePath, qrCodeheight, qrCodewidth);
+            QRCodeCreator.createQRCode(qrCodeData, filePath, qrCodeheight, qrCodewidth);
         } catch (WriterException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             assertTrue(true);
         }
@@ -71,16 +71,15 @@ public class QRCodeTest {
         String expResult = "UnitTestRead";
         int qrCodeheight = 128;
         int qrCodewidth = 128;
-        QRCode instance = new QRCode();
         try {
-            instance.createQRCode(expResult, filePath, qrCodeheight, qrCodewidth);
-            assertEquals(expResult, instance.readQRCode(filePath));
+            QRCodeCreator.createQRCode(expResult, filePath, qrCodeheight, qrCodewidth);
+            assertEquals(expResult, QRCodeReader.readQRCode(filePath));
         } catch (WriterException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotFoundException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,17 +92,16 @@ public class QRCodeTest {
         String filePath = "./testQRCodeRead.png";
         int qrCodeheight = 128;
         int qrCodewidth = 128;
-        QRCode instance = new QRCode();
         try {
-            instance.createQRCode("UnitTestRead", filePath, qrCodeheight, qrCodewidth);
+            QRCodeCreator.createQRCode("UnitTestRead", filePath, qrCodeheight, qrCodewidth);
             String expResult = "UnitTestRead";
-            String result = instance.readQRCode("dummy_" + filePath);
+            String result = QRCodeReader.readQRCode("dummy_" + filePath);
         } catch (WriterException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             assertTrue(true);
         } catch (NotFoundException ex) {
-            Logger.getLogger(QRCodeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QRCodeCreatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
