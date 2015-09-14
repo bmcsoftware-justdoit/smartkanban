@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author gokumar
  */
-class WorkItem {
+public class WorkItem {
 
     String id;
     String title;
