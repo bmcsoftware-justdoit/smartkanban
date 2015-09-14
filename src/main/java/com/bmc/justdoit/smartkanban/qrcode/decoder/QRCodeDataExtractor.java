@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bmc.justdoit.smartkanban.qrcode;
+package com.bmc.justdoit.smartkanban.qrcode.decoder;
 
-import com.bmc.justdoit.smartkanban.kanban.location.Point;
-import com.bmc.justdoit.smartkanban.kanban.location.PointCompareX;
-import com.bmc.justdoit.smartkanban.kanban.location.PointCompareY;
+import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
+import com.bmc.justdoit.smartkanban.qrcode.location.Point;
+import com.bmc.justdoit.smartkanban.qrcode.location.PointCompareX;
+import com.bmc.justdoit.smartkanban.qrcode.location.PointCompareY;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.NotFoundException;
@@ -29,9 +30,9 @@ import javax.imageio.ImageIO;
  *
  * @author gokumar
  */
-public class MultipleQRCodeExtractor {
-
-    public static List<QRCodeData> decodeDataAndLocation(String filePath) throws IOException, NotFoundException {
+public class QRCodeDataExtractor {
+    
+    public static List<QRCodeData> decodeQRCodeData(String filePath) throws IOException, NotFoundException {
         QRCodeMultiReader multiReader = new QRCodeMultiReader();
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(
                 new BufferedImageLuminanceSource(
@@ -55,7 +56,7 @@ public class MultipleQRCodeExtractor {
                 Point p = new Point(x, y);
                 points.add(p);
             }
-            Point finalLocation = MultipleQRCodeExtractor.getTopLeftXY(points);
+            Point finalLocation = QRCodeDataExtractor.getTopLeftXY(points);
 //            System.out.println("Result:::: " + result.getText());
 //            System.out.println("TLC: (" + finalLocation.x + ", " + finalLocation.y + ")");
 //            System.out.println("----------------------------------");

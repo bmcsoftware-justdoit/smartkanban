@@ -5,7 +5,7 @@
  */
 package com.bmc.justdoit.smartkanban.qrcode;
 
-import com.bmc.justdoit.smartkanban.kanban.location.Point;
+import com.bmc.justdoit.smartkanban.qrcode.location.Point;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**

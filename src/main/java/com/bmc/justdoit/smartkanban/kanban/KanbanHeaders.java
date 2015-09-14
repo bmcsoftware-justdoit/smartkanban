@@ -5,17 +5,34 @@
  */
 package com.bmc.justdoit.smartkanban.kanban;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author gokumar
  */
-public enum KanbanHeaders {
-    StoryBacklog,
-    TaskBacklog,
-    DevInProgress,
-    DevComplete,
-    TestInProgress,
-    TestComplete,
-    Done,
-    Accepted
+public class KanbanHeaders {
+
+    private static List<String> headers = new ArrayList<String>();
+
+    static {
+        KanbanHeaders.headers.add("StoryBacklog");
+        KanbanHeaders.headers.add("TaskBacklog");
+        KanbanHeaders.headers.add("DevInProgress");
+        KanbanHeaders.headers.add("DevComplete");
+        KanbanHeaders.headers.add("TestInProgress");
+        KanbanHeaders.headers.add("TestComplete");
+        KanbanHeaders.headers.add("Done");
+        KanbanHeaders.headers.add("Accepted");
+    }
+
+    public static List<String> getHeaders() {
+        return headers;
+    }
+
+    public static void setHeaders(List<String> headers) {
+        KanbanHeaders.headers = headers;
+    }
+
 }
