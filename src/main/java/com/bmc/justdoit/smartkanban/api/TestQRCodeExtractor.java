@@ -9,8 +9,11 @@ import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
 import com.bmc.justdoit.smartkanban.api.objects.TestRequest;
 import com.bmc.justdoit.smartkanban.api.objects.TestResponse;
-import com.bmc.justdoit.smartkanban.qrcode.MultipleQRCodeExtractor;
+import com.bmc.justdoit.smartkanban.kanban.queue.KanbanCreatorQueue;
+import com.bmc.justdoit.smartkanban.kanban.queue.KanbanDecoderQueue;
+import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
@@ -51,10 +54,13 @@ public class TestQRCodeExtractor {
         TestResponse response = null;
         try {
             response = new TestResponse();
-            response.setResult("QRCode Decoded Successfully!");
-            
-            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getImageFileName()));
-            response.setQrCodes(qrCodeDataLst);
+            String obj = request.getImageFileName();
+            KanbanDecoderQueue.decoderQueue.add(obj);
+//            KanbanCreatorQueue.creatorQueue.add(obj);      
+//            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getImageFileName()));
+//            response.setQrCodes(qrCodeDataLst);
+            response.setResult("Added item creator/decoder queue");
+            response.setQrCodes(new ArrayList<QRCodeData>());
         } catch (Exception ex) {
             ex.printStackTrace();
             response = new TestResponse();
