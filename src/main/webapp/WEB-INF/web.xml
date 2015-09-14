@@ -23,12 +23,17 @@
         <servlet-class>com.bmc.justdoit.smartkanban.kanban.creator.KanbanCreatorQueueProcessor</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>KanbanDecoderQueueProcessor</servlet-name>
+        <servlet-class>com.bmc.justdoit.smartkanban.kanban.creator.KanbanDecoderQueueProcessor</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
     
-    
+    <!--  Comment  -->
     <filter>
 	  <filter-name>CorsFilter</filter-name>
 	  <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
