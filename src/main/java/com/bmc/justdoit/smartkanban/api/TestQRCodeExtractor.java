@@ -9,6 +9,7 @@ import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
 import com.bmc.justdoit.smartkanban.api.objects.TestRequest;
 import com.bmc.justdoit.smartkanban.api.objects.TestResponse;
+import com.bmc.justdoit.smartkanban.kanban.Configuration;
 import com.bmc.justdoit.smartkanban.kanban.queue.KanbanCreatorQueue;
 import com.bmc.justdoit.smartkanban.kanban.queue.KanbanDecoderQueue;
 import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
@@ -55,7 +56,9 @@ public class TestQRCodeExtractor {
         try {
             response = new TestResponse();
             String obj = request.getImageFileName();
-            KanbanDecoderQueue.decoderQueue.add(obj);
+            String imageRootFolder = ctx.getRealPath("/WEB-INF/images/");
+            Configuration.getInstance().setAttr("IMAGES_ROOT_FOLDER", imageRootFolder);
+            KanbanDecoderQueue.decoderQueue.add(imageRootFolder + obj);
 //            KanbanCreatorQueue.creatorQueue.add(obj);      
 //            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getImageFileName()));
 //            response.setQrCodes(qrCodeDataLst);

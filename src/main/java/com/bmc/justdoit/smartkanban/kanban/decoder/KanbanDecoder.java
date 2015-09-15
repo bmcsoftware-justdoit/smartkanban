@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 
 /**
  *
@@ -48,6 +46,7 @@ public class KanbanDecoder implements Runnable{
     public void decodeKanbanBoard() throws Exception {
         List<QRCodeData> qrCodes;
         try {
+            System.out.println("FilePath>>> " + filePath);
             qrCodes = QRCodeDataExtractor.decodeQRCodeData(filePath);
 
             Collections.sort(qrCodes, new QRCodeDataCompareY());
@@ -66,6 +65,13 @@ public class KanbanDecoder implements Runnable{
             }
 
             Map<String, List<QRCodeData>> columnWiseQRCodeData = this.prepareColumnWiseQRCodeData(headers, tasks);
+            for (Map.Entry<String,List<QRCodeData>> column : columnWiseQRCodeData.entrySet()) {
+                System.out.println("Tasks under " + column.getKey());
+                for (QRCodeData qRCodeData : column.getValue()) {
+                    System.out.println(qRCodeData.getData());
+                }
+                System.out.println("------------------------------");
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(KanbanDecoder.class.getName()).log(Level.SEVERE, null, ex);

@@ -31,7 +31,7 @@ public class KanbanDecoderQueueProcessor extends HttpServlet implements Runnable
                     while (!KanbanDecoderQueue.decoderQueue.isEmpty()) {
                         String request = KanbanDecoderQueue.decoderQueue.poll().toString();
                         System.out.println("Got a request to decode >>>>>>>> " + request);
-                        KanbanDecoder kanbanDecoder = new KanbanDecoder(request, null);
+                        KanbanDecoder kanbanDecoder = new KanbanDecoder(request, request);
                         Thread th = new Thread(kanbanDecoder);
                         th.start();
                     }
