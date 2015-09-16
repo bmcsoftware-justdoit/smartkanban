@@ -8,14 +8,19 @@
     </session-config>
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>com.bmc.justdoit.smartkanban.api</param-value>
-            
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>com.bmc.justdoit.smartkanban.api;org.codehaus.jackson.jaxrs</param-value>            
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>com.bmc.justdoit.smartkanban.api;org.codehaus.jackson.jaxrs</param-value>
         </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+        </init-param>
+<!--        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.bmc.justdoit.smartkanban.api.KanbanApplication</param-value>
+        </init-param>-->
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
@@ -25,7 +30,7 @@
     </servlet>
     <servlet>
         <servlet-name>KanbanDecoderQueueProcessor</servlet-name>
-        <servlet-class>com.bmc.justdoit.smartkanban.kanban.creator.KanbanDecoderQueueProcessor</servlet-class>
+        <servlet-class>com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoderQueueProcessor</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -35,37 +40,37 @@
     
     
     <filter>
-	  <filter-name>CorsFilter</filter-name>
-	  <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
-	  <init-param>
-	    <param-name>cors.allowed.origins</param-name>
-	    <param-value>*</param-value>
-	  </init-param>
-	  <init-param>
-	    <param-name>cors.allowed.methods</param-name>
-	    <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
-	  </init-param>
-	  <init-param>
-	    <param-name>cors.allowed.headers</param-name>
-	    <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
-	  </init-param>
-	  <init-param>
-	    <param-name>cors.exposed.headers</param-name>
-	    <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
-	  </init-param>
-	  <init-param>
-	    <param-name>cors.support.credentials</param-name>
-	    <param-value>true</param-value>
-	  </init-param>
-	  <init-param>
-	    <param-name>cors.preflight.maxage</param-name>
-	    <param-value>10</param-value>
-	  </init-param>
-	</filter>
-<filter-mapping>
-  <filter-name>CorsFilter</filter-name>
-  <url-pattern>/rest/*</url-pattern>
-</filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+            <param-name>cors.allowed.origins</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.methods</param-name>
+            <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.exposed.headers</param-name>
+            <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.support.credentials</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.preflight.maxage</param-name>
+            <param-value>10</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
 
 
     
