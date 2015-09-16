@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -42,7 +43,7 @@ public class KanbanDecoderResource {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public KanbanDecoderResponse postJson(
+    public KanbanDecoderResponse postJson(Map<String, String> authAttrs, 
             @FormDataParam("uploadFile") InputStream fileInputStream,
             @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
         KanbanDecoderResponse response = new KanbanDecoderResponse();
@@ -59,6 +60,7 @@ public class KanbanDecoderResource {
             System.out.println("File saved to server location : " + filePath);
             
             KanbanDecoderRequest request = new KanbanDecoderRequest();
+            request.setAuthAttrs(authAttrs);
             request.setRequestId(requestId);
             request.setFileName(fileFormDataContentDisposition.getFileName());
             
