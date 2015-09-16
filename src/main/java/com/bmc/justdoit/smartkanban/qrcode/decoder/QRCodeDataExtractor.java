@@ -62,7 +62,7 @@ public class QRCodeDataExtractor {
 //            System.out.println("----------------------------------");
             decodedQRCodeData.add(new QRCodeData(finalLocation, result.getText()));
         }
-        System.out.println("Total: " + decodedQRCodeData.size());
+//        System.out.println("Total: " + decodedQRCodeData.size());
         return decodedQRCodeData;
     }
 
