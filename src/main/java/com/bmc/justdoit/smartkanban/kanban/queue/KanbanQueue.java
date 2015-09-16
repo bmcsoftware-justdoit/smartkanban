@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @author gokumar
  */
-public class KanbanDecoderQueue {
+public class KanbanQueue {
+    public static final ConcurrentLinkedQueue creatorQueue = new ConcurrentLinkedQueue();
     public static final ConcurrentLinkedQueue decoderQueue = new ConcurrentLinkedQueue();
 }

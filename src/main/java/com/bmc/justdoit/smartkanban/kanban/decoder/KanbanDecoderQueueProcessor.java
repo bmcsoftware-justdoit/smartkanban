@@ -6,7 +6,7 @@
 package com.bmc.justdoit.smartkanban.kanban.decoder;
 
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
-import com.bmc.justdoit.smartkanban.kanban.queue.KanbanDecoderQueue;
+import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,9 +27,9 @@ public class KanbanDecoderQueueProcessor extends HttpServlet implements Runnable
     public void run() {
         while (true) {
             try {
-                synchronized (KanbanDecoderQueue.decoderQueue) {
-                    while (!KanbanDecoderQueue.decoderQueue.isEmpty()) {
-                        KanbanDecoderRequest request = (KanbanDecoderRequest) KanbanDecoderQueue.decoderQueue.poll();
+                synchronized (KanbanQueue.decoderQueue) {
+                    while (!KanbanQueue.decoderQueue.isEmpty()) {
+                        KanbanDecoderRequest request = (KanbanDecoderRequest) KanbanQueue.decoderQueue.poll();
                         System.out.println("Got a request to process Kanban.");
                         System.out.println("Request Id: " + request.getRequestId());
                         KanbanDecoder kanbanDecoder = new KanbanDecoder(request);

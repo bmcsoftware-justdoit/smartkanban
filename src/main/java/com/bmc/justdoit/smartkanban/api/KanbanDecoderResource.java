@@ -7,7 +7,7 @@ package com.bmc.justdoit.smartkanban.api;
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
-import com.bmc.justdoit.smartkanban.kanban.queue.KanbanDecoderQueue;
+import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -63,7 +63,7 @@ public class KanbanDecoderResource {
             request.setRequestId(requestId);
             request.setFileName(fileFormDataContentDisposition.getFileName());
             
-            KanbanDecoderQueue.decoderQueue.add(request);
+            KanbanQueue.decoderQueue.add(request);
             response.setResult("Upload successful! Added item to decoder queue");
         } catch (Exception ex) {
             ex.printStackTrace();
