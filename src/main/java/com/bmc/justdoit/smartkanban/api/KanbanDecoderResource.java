@@ -63,7 +63,7 @@ public class KanbanDecoderResource {
             request.setRequestId(requestId);
             request.setFileName(fileFormDataContentDisposition.getFileName());
             
-            KanbanQueue.decoderQueue.add(request);
+            KanbanQueue.DECODER_QUEUE.add(request);
             response.setResult("Upload successful! Added item to decoder queue");
         } catch (Exception ex) {
             ex.printStackTrace();

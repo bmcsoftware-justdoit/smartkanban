@@ -57,7 +57,7 @@ public class TestQRCodeExtractor {
             String obj = request.getImageFileName();
             String imageRootFolder = ctx.getRealPath("/WEB-INF/images/");
             Configuration.getInstance().setAttr("IMAGES_ROOT_FOLDER", imageRootFolder);
-            KanbanQueue.decoderQueue.add(imageRootFolder + obj);
+            KanbanQueue.DECODER_QUEUE.add(imageRootFolder + obj);
 //            KanbanCreatorQueue.creatorQueue.add(obj);      
 //            List<QRCodeData> qrCodeDataLst = MultipleQRCodeExtractor.decodeDataAndLocation(ctx.getRealPath("/WEB-INF/images/"+request.getImageFileName()));
 //            response.setQrCodes(qrCodeDataLst);

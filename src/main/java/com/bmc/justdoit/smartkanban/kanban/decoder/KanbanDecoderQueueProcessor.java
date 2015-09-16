@@ -27,9 +27,9 @@ public class KanbanDecoderQueueProcessor extends HttpServlet implements Runnable
     public void run() {
         while (true) {
             try {
-                synchronized (KanbanQueue.decoderQueue) {
-                    while (!KanbanQueue.decoderQueue.isEmpty()) {
-                        KanbanDecoderRequest request = (KanbanDecoderRequest) KanbanQueue.decoderQueue.poll();
+                synchronized (KanbanQueue.DECODER_QUEUE) {
+                    while (!KanbanQueue.DECODER_QUEUE.isEmpty()) {
+                        KanbanDecoderRequest request = (KanbanDecoderRequest) KanbanQueue.DECODER_QUEUE.poll();
                         System.out.println("Got a request to process Kanban.");
                         System.out.println("Request Id: " + request.getRequestId());
                         KanbanDecoder kanbanDecoder = new KanbanDecoder(request);

@@ -26,10 +26,10 @@ public class KanbanCreatorQueueProcessor extends HttpServlet implements Runnable
     public void run() {
         while (true) {
             try {
-                synchronized (KanbanQueue.creatorQueue) {
+                synchronized (KanbanQueue.CREATOR_QUEUE) {
 //                    System.out.println("Synced......" + KanbanCreatorQueue.creatorQueue.size());
-                    while (!KanbanQueue.creatorQueue.isEmpty()) {
-                        String request = KanbanQueue.creatorQueue.poll().toString();
+                    while (!KanbanQueue.CREATOR_QUEUE.isEmpty()) {
+                        String request = KanbanQueue.CREATOR_QUEUE.poll().toString();
                         System.out.println("Got a request to create >>>>>>>> " + request);
                         KanbanCreator kanbanCreator = new KanbanCreator(request, null);
                         Thread th = new Thread(kanbanCreator);
