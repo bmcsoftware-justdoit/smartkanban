@@ -7,6 +7,7 @@ package com.bmc.justdoit.smartkanban.api;
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderResponse;
 import com.bmc.justdoit.smartkanban.kanban.Configuration;
+import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.queue.KanbanDecoderQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,16 +15,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
+import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.glassfish.jersey.media.multipart.ContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 /**
  * REST Web Service
@@ -42,24 +41,29 @@ public class KanbanDecoderResource {
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces("application/json")
-    public KanbanDecoderResponse postJson(@Context ServletContext ctx, FormDataMultiPart form) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public KanbanDecoderResponse postJson(
+            @FormDataParam("uploadFile") InputStream fileInputStream,
+            @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
         KanbanDecoderResponse response = new KanbanDecoderResponse();
-        
-        try {
-            FormDataBodyPart filePart = form.getField("file");
-            ContentDisposition headerOfFilePart = filePart.getContentDisposition();
-            InputStream fileInputStream = filePart.getValueAs(InputStream.class);
 
-            String imageRootFolder = ctx.getRealPath("/WEB-INF/images/");
-            String filePath = imageRootFolder + headerOfFilePart.getFileName();
+        try {
+            String userRootFolder = System.getProperty("user.home");
+            String requestId = UUID.randomUUID().toString();
+            new File(userRootFolder + "/smartkanban/" + requestId).mkdirs();
+            String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileFormDataContentDisposition.getFileName();
+
             // save the file to the server
             saveFile(fileInputStream, filePath);
 
             System.out.println("File saved to server location : " + filePath);
-            Configuration.getInstance().setAttr("IMAGES_ROOT_FOLDER", imageRootFolder);
-            KanbanDecoderQueue.decoderQueue.add(imageRootFolder + File.pathSeparator + headerOfFilePart.getFileName());
-            response.setAttr("result", "Added item to decoder queue");
+            
+            KanbanDecoderRequest request = new KanbanDecoderRequest();
+            request.setRequestId(requestId);
+            request.setFileName(fileFormDataContentDisposition.getFileName());
+            
+            KanbanDecoderQueue.decoderQueue.add(request);
+            response.setResult("Upload successful! Added item to decoder queue");
         } catch (Exception ex) {
             ex.printStackTrace();
             response.setErrorCode(ErrorResponse.NESTED_ERROR);

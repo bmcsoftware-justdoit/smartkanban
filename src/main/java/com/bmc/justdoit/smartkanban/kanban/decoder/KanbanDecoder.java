@@ -5,6 +5,7 @@
  */
 package com.bmc.justdoit.smartkanban.kanban.decoder;
 
+import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.KanbanHeaders;
 import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
@@ -25,12 +26,12 @@ import java.util.logging.Logger;
  * @author gokumar
  */
 public class KanbanDecoder implements Runnable{
-    private String filePath;
-    private String emailId;
+    private String fileName;
+    private String requestId;
     
-    public KanbanDecoder(String emailId, String filePath){
-        this.emailId = emailId;
-        this.filePath = filePath;
+    public KanbanDecoder(KanbanDecoderRequest request){
+        this.requestId = request.getRequestId();
+        this.fileName = request.getFileName();
     }
 
     private List<String> headerNames;
@@ -46,7 +47,9 @@ public class KanbanDecoder implements Runnable{
     public void decodeKanbanBoard() throws Exception {
         List<QRCodeData> qrCodes;
         try {
-            System.out.println("FilePath>>> " + filePath);
+            System.out.println("FileName>>> " + fileName);
+            String userRootFolder = System.getProperty("user.home");
+            String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileName;
             qrCodes = QRCodeDataExtractor.decodeQRCodeData(filePath);
 
             Collections.sort(qrCodes, new QRCodeDataCompareY());

@@ -15,6 +15,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class KanbanDecoderResponse extends ErrorResponse {
     private Map<String, Object> attributes = new HashMap<String, Object>();
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
     
     public Object getAttrValue(String key){
         return attributes.get(key);
