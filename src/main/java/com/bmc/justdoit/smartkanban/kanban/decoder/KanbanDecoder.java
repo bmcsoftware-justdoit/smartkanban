@@ -5,6 +5,8 @@
  */
 package com.bmc.justdoit.smartkanban.kanban.decoder;
 
+import com.bmc.justdoit.smartkanban.agiletools.AgileToolFactory;
+import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.KanbanHeaders;
 import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
@@ -25,17 +27,20 @@ import java.util.logging.Logger;
  *
  * @author gokumar
  */
-public class KanbanDecoder implements Runnable{
+public class KanbanDecoder implements Runnable {
+
     private String fileName;
     private String requestId;
-    
-    public KanbanDecoder(KanbanDecoderRequest request){
+    private Map<String, String> authAttrs;
+
+    public KanbanDecoder(KanbanDecoderRequest request) {
         this.requestId = request.getRequestId();
         this.fileName = request.getFileName();
+        this.authAttrs = request.getAuthAttrs();
     }
 
     private List<String> headerNames;
-    
+
     public void run() {
         try {
             decodeKanbanBoard();
@@ -68,9 +73,16 @@ public class KanbanDecoder implements Runnable{
             }
 
             Map<String, List<QRCodeData>> columnWiseQRCodeData = this.prepareColumnWiseQRCodeData(headers, tasks);
-            for (Map.Entry<String,List<QRCodeData>> column : columnWiseQRCodeData.entrySet()) {
+            WorkItem workItem;
+
+            for (Map.Entry<String, List<QRCodeData>> column : columnWiseQRCodeData.entrySet()) {
                 System.out.println("Tasks under " + column.getKey());
                 for (QRCodeData qRCodeData : column.getValue()) {
+                    workItem = new WorkItem();
+                    workItem.setId(qRCodeData.getData());
+                    workItem.setStatus(column.getKey());
+
+                    AgileToolFactory.getAgileToolIntf().updateWorkItem(authAttrs, workItem);
                     System.out.println(qRCodeData.getData());
                 }
                 System.out.println("------------------------------");

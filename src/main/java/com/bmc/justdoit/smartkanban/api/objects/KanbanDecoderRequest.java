@@ -5,13 +5,24 @@
  */
 package com.bmc.justdoit.smartkanban.api.objects;
 
+import java.util.Map;
+
 /**
  *
  * @author gokumar
  */
 public class KanbanDecoderRequest {
+    private Map<String, String> authAttrs;
     private String requestId;
     private String fileName;
+
+    public Map<String, String> getAuthAttrs() {
+        return authAttrs;
+    }
+
+    public void setAuthAttrs(Map<String, String> authAttrs) {
+        this.authAttrs = authAttrs;
+    }
 
     public String getFileName() {
         return fileName;
