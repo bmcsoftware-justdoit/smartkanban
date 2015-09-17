@@ -17,4 +17,11 @@ public class Point<X, Y> {
         this.x = x;
         this.y = y;
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder returnStr = new StringBuilder();
+        returnStr = returnStr.append(x).append("_").append(y);
+        return returnStr.toString();
+    }
 }

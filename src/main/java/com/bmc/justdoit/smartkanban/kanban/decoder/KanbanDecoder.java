@@ -16,6 +16,7 @@ import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeDataCompareX;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeDataCompareY;
 import com.google.zxing.NotFoundException;
+import com.google.zxing.qrcode.encoder.QRCode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,38 +59,55 @@ public class KanbanDecoder implements Runnable {
             String userRootFolder = System.getProperty("user.home");
             String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileName;
             qrCodes = QRCodeDataExtractor.decodeQRCodeData(filePath);
+            for (QRCodeData qrCode : qrCodes) {
+                System.out.println(qrCode.getData() + ":" + qrCode.getPoint().toString());
+            }
 
             if (qrCodes == null) {
                 KanbanException e = new KanbanException("Could not decode/identify any QRCodes. Please retry!");
                 e.setErrorCode(ErrorCode.NO_QR_CODES_IDENTIFIED);
                 throw e;
-            } else if(qrCodes.size() < KanbanHeaders.getHeaders().size()){
+            } /*else if (qrCodes.size() < KanbanHeaders.getHeaders().size()) {
                 KanbanException e = new KanbanException("Required headers are missing in the Kanban board. Please retry!");
                 e.setErrorCode(ErrorCode.INVALID_OR_NO_HEADERS_AVAILABLE);
                 throw e;
-            } else if(qrCodes.size() <= KanbanHeaders.getHeaders().size()){
+            } else if (qrCodes.size() <= KanbanHeaders.getHeaders().size()) {
                 KanbanException e = new KanbanException("No work items found to update Jira!");
                 e.setErrorCode(ErrorCode.NO_WORKITEMS_FOUND);
                 throw e;
-            } else {
-                Collections.sort(qrCodes, new QRCodeDataCompareY());
-                List<QRCodeData> headers = qrCodes.subList(0, KanbanHeaders.getHeaders().size());
-                List<QRCodeData> tasks = qrCodes.subList(KanbanHeaders.getHeaders().size(), qrCodes.size());
-
-                headerNames = new ArrayList<String>();
-                Collections.sort(headers, new QRCodeDataCompareX());
-                for (QRCodeData headerQRCode : headers) {
-                    String headerName = headerQRCode.getData();
-                    if (KanbanHeaders.getHeaders().contains(headerName)) {
-                        headerNames.add(headerName);
-                    } else {
-                        KanbanException e = new KanbanException(headerName + " is not identified as supported header. Please contact SmartKanban Admin!");
-                        e.setErrorCode(ErrorCode.INVALID_HEADERS);
-                        throw e;
+            }*/ else {
+                //Identify headers and extract to a separate list
+                List<QRCodeData> headers = new ArrayList<QRCodeData>();
+                for (QRCodeData qrCode : qrCodes) {
+                    String qrCodeData = qrCode.getData();
+                    boolean present = false;
+                    for (String header : KanbanHeaders.getHeaders()) {
+                        if (qrCodeData.contains(header)) {
+                            present = true;
+                            break;
+                        }
+                    }
+                    if (present) {
+                        headers.add(qrCode);
                     }
                 }
 
-                Map<String, List<QRCodeData>> columnWiseQRCodeData = this.prepareColumnWiseQRCodeData(headers, tasks);
+                if (headers.isEmpty()) {
+                    KanbanException e = new KanbanException("Headers are missing in the Kanban board. Please retry!");
+                    e.setErrorCode(ErrorCode.NO_HEADERS_AVAILABLE);
+                    throw e;
+                }
+
+                Collections.sort(headers, new QRCodeDataCompareX());
+                qrCodes.removeAll(headers);
+
+                headerNames = new ArrayList<String>();
+                for (QRCodeData headerQRCode : headers) {
+                    String headerName = headerQRCode.getData();
+                    headerNames.add(headerName);
+                }
+
+                Map<String, List<QRCodeData>> columnWiseQRCodeData = this.prepareColumnWiseQRCodeData(headers, qrCodes);
                 WorkItem workItem;
 
                 for (Map.Entry<String, List<QRCodeData>> column : columnWiseQRCodeData.entrySet()) {
@@ -100,7 +118,7 @@ public class KanbanDecoder implements Runnable {
                         workItem.setStatus(column.getKey());
 
                         AgileToolFactory.getAgileToolIntf().updateWorkItem(authAttrs, workItem);
-                        System.out.println(qRCodeData.getData());
+                        System.out.println(qRCodeData.getData() + ":" + qRCodeData.getPoint().toString());
                     }
                     System.out.println("------------------------------");
                 }
@@ -141,7 +159,7 @@ public class KanbanDecoder implements Runnable {
                     currentHeaderTasks.add(task);
                 }
             }
-            columnWiseQRCodeData.put(headerNames.get(headerIndx), currentHeaderTasks);
+            columnWiseQRCodeData.put(headerNames.get(headerIndx) + ":" + leftMargin + "_" + rightMargin, currentHeaderTasks);
         }
         return columnWiseQRCodeData;
     }
