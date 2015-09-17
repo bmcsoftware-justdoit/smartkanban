@@ -47,39 +47,13 @@ public class JiraClientFacade implements AgileToolIntf {
 		try {
 			Issue issue = client.getIssue(workItemId);
 			wItem = convertIssueToWorkItem(issue);
-			
+			System.out.println("Work item retrieved. " + wItem.getTitle());
 		} catch (JiraException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return wItem;
-	}
-
-	private WorkItem convertIssueToWorkItem(Issue issue) {
-		WorkItem wItem = new WorkItem();
-		wItem.setId(issue.getKey());
-		wItem.setTitle(issue.getSummary() );
-		wItem.setType(getMappedType(issue));
-		wItem.setDescription(issue.getDescription());
-		wItem.setStatus(issue.getStatus().getName());
-		wItem.setEstimation("" + issue.getTimeEstimate());
-		wItem.setRemaining("" + (issue.getTimeEstimate() - issue.getTimeSpent() ));
-		
-		return wItem;
-	}
-	
-	private WorkItemType getMappedType(Issue issue){
-		IssueType type = issue.getIssueType();
-		String typeName = type.getName();
-		if(typeName == null || typeName.equalsIgnoreCase("Story")) return  WorkItemType.USER_STORY; 
-		if(typeName.equalsIgnoreCase("Technical debt")) return WorkItemType.TECHNICLE_DEBT;
-		if(typeName.equalsIgnoreCase("Spike")) return WorkItemType.SPIKE;
-		if(typeName.equalsIgnoreCase("Bug")) return WorkItemType.DEFECT;
-		if(typeName.equalsIgnoreCase("Improvement")) return WorkItemType.ENHANCEMENT;
-		if(typeName.equalsIgnoreCase("Sub-task")) return WorkItemType.SUB_TASK;
-		
-		return WorkItemType.USER_STORY;
 	}
 
 	public List<WorkItem> getWorkItems(Map<String, String> authAttrs,
@@ -127,25 +101,7 @@ public class JiraClientFacade implements AgileToolIntf {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	private JiraClient getJiraClient(Map<String, String> authAttrs){
-		String userName = authAttrs.get("userName");
-		String password = authAttrs.get("password");
-		BasicCredentials creds = new BasicCredentials(userName, password);
-	    JiraClient jira = new JiraClient(jirServer, creds);
-	    
-	    //jira.getRestClient().getHttpClient().getConnectionManager().
-	    
-	    return jira;
-	}
-	
-	
-	private GreenHopperClient getGreenHopperClient(Map<String, String> authAttrs){
 		
-		return new GreenHopperClient(getJiraClient(authAttrs));
-	}
-
 	public List<TeamInfo> getSprintTeams(Map<String, String> authAttrs) {
 		GreenHopperClient client = getGreenHopperClient(authAttrs);
 		List<TeamInfo> teams  = new ArrayList<TeamInfo>();
@@ -171,5 +127,48 @@ public class JiraClientFacade implements AgileToolIntf {
 		}
 
 		return teams;
+	}
+        
+        private JiraClient getJiraClient(Map<String, String> authAttrs){
+		String userName = authAttrs.get("userName");
+		String password = authAttrs.get("password");
+		BasicCredentials creds = new BasicCredentials(userName, password);
+	    JiraClient jira = new JiraClient(jirServer, creds);
+	    
+	    //jira.getRestClient().getHttpClient().getConnectionManager().
+	    
+	    return jira;
+	}
+	
+	
+	private GreenHopperClient getGreenHopperClient(Map<String, String> authAttrs){
+		
+		return new GreenHopperClient(getJiraClient(authAttrs));
+	}
+        
+        private WorkItem convertIssueToWorkItem(Issue issue) {
+		WorkItem wItem = new WorkItem();
+		wItem.setId(issue.getKey());
+		wItem.setTitle(issue.getSummary() );
+		wItem.setType(getMappedType(issue));
+		wItem.setDescription(issue.getDescription());
+		wItem.setStatus(issue.getStatus().getName());
+		wItem.setEstimation("" + issue.getTimeEstimate());
+		wItem.setRemaining("" + (issue.getTimeEstimate() - issue.getTimeSpent() ));
+		
+		return wItem;
+	}
+	
+	private WorkItemType getMappedType(Issue issue){
+		IssueType type = issue.getIssueType();
+		String typeName = type.getName();
+		if(typeName == null || typeName.equalsIgnoreCase("Story")) return  WorkItemType.USER_STORY; 
+		if(typeName.equalsIgnoreCase("Technical debt")) return WorkItemType.TECHNICLE_DEBT;
+		if(typeName.equalsIgnoreCase("Spike")) return WorkItemType.SPIKE;
+		if(typeName.equalsIgnoreCase("Bug")) return WorkItemType.DEFECT;
+		if(typeName.equalsIgnoreCase("Improvement")) return WorkItemType.ENHANCEMENT;
+		if(typeName.equalsIgnoreCase("Sub-task")) return WorkItemType.SUB_TASK;
+		
+		return WorkItemType.USER_STORY;
 	}
 }
