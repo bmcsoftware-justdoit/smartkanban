@@ -13,7 +13,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class KanbanImageUploadResponse extends ErrorResponse {
    String fileName;
+   String requestId; 
 
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+    
     public String getFileName() {
         return fileName;
     }

@@ -59,8 +59,9 @@ public class KanbanImageUploadResource {
         System.out.print("File upload request receieved");
         String userRootFolder = System.getProperty("user.home");
         String requestId = UUID.randomUUID().toString();
+        String fileName = fileFormDataContentDisposition.getFileName();
         new File(userRootFolder + "/smartkanban/" + requestId).mkdirs();
-        String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileFormDataContentDisposition.getFileName();
+        String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileName;
         try{
             // save the file to the server
             saveFile(fileInputStream, filePath);
@@ -80,7 +81,8 @@ public class KanbanImageUploadResource {
         }
 
         System.out.println("File saved to server location : " + filePath);
-        response.setFileName(filePath);
+        response.setFileName(fileName);
+        response.setRequestId(requestId);
         return response;
     }
 
