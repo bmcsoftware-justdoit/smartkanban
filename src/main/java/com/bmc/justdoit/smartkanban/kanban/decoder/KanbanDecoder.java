@@ -120,12 +120,12 @@ public class KanbanDecoder implements Runnable {
                     System.out.println("------------------------------");
                 }
 
-                boolean status = AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
-                if (status) {
+                AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
+               /* if (status) {
                     Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Successful!", "[" + requestId + "] Successfully processed Kanban board and updated Jira!");
                 }else{
                     Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later.");
-                }
+                }*/
             }
 
         } catch (IOException ex) {

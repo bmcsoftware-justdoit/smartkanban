@@ -27,5 +27,5 @@ public interface AgileToolIntf {
     
     public Set<String> getSupportedPhysicalKanbanStatuses();
     
-    public boolean updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items);  
+    public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items);  
 }

@@ -26,6 +26,10 @@ import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
 import java.util.Collection;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.rcarz.jiraclient.Field;
+import net.rcarz.jiraclient.Status;
 
 public class JiraClientFacade extends AgileTool {
 	
@@ -44,21 +48,10 @@ public class JiraClientFacade extends AgileTool {
 	}
 
 	public WorkItem getWorkItem(Map<String, String> authAttrs, String workItemId) {
-		
-		WorkItem wItem = null;
 		JiraClient client =  getJiraClient(authAttrs);
-		try {
-			Issue issue = client.getIssue(workItemId);
-			wItem = convertIssueToWorkItem(issue);
-			System.out.println("Work item retrieved. " + wItem.getTitle());
-		} catch (JiraException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return wItem;
+                return getWorkItem(client, workItemId );
 	}
-
+        
 	public List<WorkItem> getWorkItems(Map<String, String> authAttrs,
 			SprintQuery query) {
 		
@@ -131,6 +124,35 @@ public class JiraClientFacade extends AgileTool {
 		return teams;
 	}
         
+        
+        public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
+            if(items != null )   return null;
+            
+            Map<String, Integer> kanbanStatusMap = getPhysicalKanbanStatusMap();
+            JiraClient client = getJiraClient(authAttrs);
+            
+            Collection<WorkItem> updatedItems = new ArrayList<WorkItem>();
+            for(WorkItem item: items ){
+                Integer itemKanbanStatus  = kanbanStatusMap.get(item.getPhysicalKanbanStatus());
+                if(null ==  itemKanbanStatus){
+                    System.out.println("Found unsupported kanban status "+ item.getPhysicalKanbanStatus() + " for item "+ item.getId());
+                }
+                try {
+                    Issue issue = client.getIssue(item.getId());
+                    Status status = issue.getStatus();
+                    if(itemKanbanStatus == 1){
+                        issue.update().field(Field.STATUS, "In Progress").execute();
+                    }
+                } catch (JiraException ex) {
+                    System.out.println("Failed to retrieve JIRA issue " + item.getId());
+                    ex.printStackTrace();
+                }
+            }
+            
+            return null;
+        }
+    
+        
         private JiraClient getJiraClient(Map<String, String> authAttrs){
 		String userName = authAttrs.get("userName");
 		String password = authAttrs.get("password");
@@ -174,9 +196,19 @@ public class JiraClientFacade extends AgileTool {
 		return WorkItemType.USER_STORY;
 	}
 
+        private WorkItem getWorkItem(JiraClient client, String workItemId) {
+		WorkItem wItem = null;
+		try {
+			Issue issue = client.getIssue(workItemId);
+			wItem = convertIssueToWorkItem(issue);
+			System.out.println("Work item retrieved. " + wItem.getTitle());
+		} catch (JiraException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return wItem;
+	}
     
-    public boolean updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
