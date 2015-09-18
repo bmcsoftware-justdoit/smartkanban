@@ -15,6 +15,15 @@ public class KanbanDecoderRequest {
     private Map<String, String> authAttrs;
     private String requestId;
     private String fileName;
+    private boolean async;
+
+    public boolean isAsync() {
+        return async;
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
+    }
 
     public Map<String, String> getAuthAttrs() {
         return authAttrs;
