@@ -99,6 +99,8 @@ public class KanbanDecoder implements Runnable {
                 }
 
                 Collections.sort(headers, new QRCodeDataCompareX());
+                
+                // Isolate tasks by removing all headers from qrCodse list
                 qrCodes.removeAll(headers);
 
                 headerNames = new ArrayList<String>();
