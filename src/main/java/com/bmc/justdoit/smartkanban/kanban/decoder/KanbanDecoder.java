@@ -10,6 +10,7 @@ import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.error.ErrorCode;
 import com.bmc.justdoit.smartkanban.kanban.error.KanbanException;
+import com.bmc.justdoit.smartkanban.notification.Mail;
 import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeDataCompareX;
@@ -32,11 +33,13 @@ public class KanbanDecoder implements Runnable {
     private final String fileName;
     private final String requestId;
     private final Map<String, String> authAttrs;
+    private final boolean async;
 
     public KanbanDecoder(KanbanDecoderRequest request) {
         this.requestId = request.getRequestId();
         this.fileName = request.getFileName();
         this.authAttrs = request.getAuthAttrs();
+        this.async = request.isAsync();
     }
 
     private List<String> headerNames;
@@ -91,7 +94,7 @@ public class KanbanDecoder implements Runnable {
                 }
 
                 Collections.sort(headers, new QRCodeDataCompareX());
-                
+
                 // Isolate tasks by removing all headers from qrCodse list
                 qrCodes.removeAll(headers);
 
@@ -116,17 +119,24 @@ public class KanbanDecoder implements Runnable {
                     }
                     System.out.println("------------------------------");
                 }
-                
-                AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
+
+                boolean status = AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
+                if (status) {
+                    Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Successful!", "[" + requestId + "] Successfully processed Kanban board and updated Jira!");
+                }else{
+                    Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later.");
+                }
             }
 
         } catch (IOException ex) {
             KanbanException e = new KanbanException("Encounted error during decode! Please contact SmartKanban Admin!");
             e.setErrorCode(ErrorCode.COULD_NOT_DECODE_KANBAN);
+            Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later." + e.getMessage());
             throw e;
         } catch (NotFoundException ex) {
             KanbanException e = new KanbanException("No QR Codes identified in the Kanban board! Please retry with different image!");
             e.setErrorCode(ErrorCode.NO_QR_CODES_IDENTIFIED);
+            Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later." + e.getMessage());
             throw e;
         }
     }
@@ -155,7 +165,8 @@ public class KanbanDecoder implements Runnable {
                     currentHeaderTasks.add(task);
                 }
             }
-            columnWiseQRCodeData.put(headerNames.get(headerIndx) + ":" + leftMargin + "_" + rightMargin, currentHeaderTasks);
+            // columnWiseQRCodeData.put(headerNames.get(headerIndx) + ":" + leftMargin + "_" + rightMargin, currentHeaderTasks);
+            columnWiseQRCodeData.put(headerNames.get(headerIndx), currentHeaderTasks);
         }
         return columnWiseQRCodeData;
     }

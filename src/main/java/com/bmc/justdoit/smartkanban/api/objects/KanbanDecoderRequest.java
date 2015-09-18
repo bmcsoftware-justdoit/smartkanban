@@ -16,6 +16,15 @@ public class KanbanDecoderRequest {
     private String requestId;
     private String fileName;
     private boolean async;
+    private String emailId;
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
 
     public boolean isAsync() {
         return async;
