@@ -1,5 +1,6 @@
 package com.bmc.justdoit.smartkanban.agiletools.jira;
 
+import com.bmc.justdoit.smartkanban.agiletools.AgileTool;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,10 @@ import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
 import com.bmc.justdoit.smartkanban.agiletools.WorkItemType;
 import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
+import java.util.Collection;
+import java.util.Set;
 
-public class JiraClientFacade implements AgileToolIntf {
+public class JiraClientFacade extends AgileTool {
 	
 	private String jirServer = "http://jira-cor.bmc.com:80";
 
@@ -68,7 +71,6 @@ public class JiraClientFacade implements AgileToolIntf {
 		
 		JiraClient client = getJiraClient(authAttrs);
 		List<WorkItem> wItems = new ArrayList<WorkItem>();
-		
 		try {
 			SearchResult res = client.searchIssues(jql);
 			if(res.issues != null){
@@ -171,4 +173,10 @@ public class JiraClientFacade implements AgileToolIntf {
 		
 		return WorkItemType.USER_STORY;
 	}
+
+    
+    public boolean updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

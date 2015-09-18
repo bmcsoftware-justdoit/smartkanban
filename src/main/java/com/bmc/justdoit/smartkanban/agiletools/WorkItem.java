@@ -20,6 +20,9 @@ public class WorkItem {
     String remaining;
     String description;
     String acceptanceCriteria;
+    String physicalKanbanStatus;
+    WorkItemType type;
+    
     List<WorkItem> subTaks;
 
     public String getId() {
@@ -93,5 +96,12 @@ public class WorkItem {
     public void setType(WorkItemType type) {
         this.type = type;
     }
-    WorkItemType type;
+    
+    public String getPhysicalKanbanStatus() {
+        return physicalKanbanStatus;
+    }
+
+    public void setPhysicalKanbanStatus(String physicalKanbanStatus) {
+        this.physicalKanbanStatus = physicalKanbanStatus;
+    }
 }

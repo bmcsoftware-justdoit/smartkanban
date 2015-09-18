@@ -7,8 +7,10 @@ package com.bmc.justdoit.smartkanban.agiletools;
 
 import com.bmc.justdoit.smartkanban.api.objects.LoginRequest;
 import com.bmc.justdoit.smartkanban.api.objects.LoginResponse;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -21,5 +23,9 @@ public interface AgileToolIntf {
     
     public List<WorkItem> getWorkItems(Map<String, String> authAttrs, SprintQuery query);
     
-    public boolean updateWorkItem(Map<String, String> authAttrs, WorkItem item);    
+    public boolean updateWorkItem(Map<String, String> authAttrs, WorkItem item);  
+    
+    public Set<String> getSupportedPhysicalKanbanStatuses();
+    
+    public boolean updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items);  
 }
