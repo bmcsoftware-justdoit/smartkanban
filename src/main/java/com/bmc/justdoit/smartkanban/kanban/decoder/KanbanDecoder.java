@@ -116,6 +116,7 @@ public class KanbanDecoder implements Runnable {
                         workItem.setPhysicalKanbanStatus(column.getKey());
 
                         System.out.println(qRCodeData.getData() + ":" + qRCodeData.getPoint().toString());
+                        workItems.add(workItem);
                     }
                     System.out.println("------------------------------");
                 }
