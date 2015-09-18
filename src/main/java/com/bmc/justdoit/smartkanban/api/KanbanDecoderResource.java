@@ -49,15 +49,18 @@ public class KanbanDecoderResource {
         try {
             if (request.isAsync()) {
                 KanbanQueue.DECODER_QUEUE.add(request);
+                response.setObjectId(request.getRequestId());
                 response.setResult("Added Kanban board to process queue!");
             } else {
                 KanbanDecoder kanbanDecoder = new KanbanDecoder(request);
                 kanbanDecoder.decodeKanbanBoard();
+                response.setObjectId(request.getRequestId());
                 response.setResult("Processed SmartKanban board and updated agile tool successfully.");
             }
         } catch (KanbanException ex) {
             System.out.println("Processing SmartKanban failed.");
             System.out.println("Reason: [" + ex.getErrorCode().toString() + "] " + ex.getMessage());
+            response.setObjectId(request.getRequestId());
             response.setErrorCode(ErrorResponse.NESTED_ERROR);
             response.setErrorMessage(ex.getErrorCode().toString() + ": " + ex.getMessage());
             response.setErrorTrace(ExceptionUtils.getStackTrace(ex));
