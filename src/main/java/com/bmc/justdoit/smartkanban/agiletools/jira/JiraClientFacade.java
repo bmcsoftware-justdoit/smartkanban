@@ -126,25 +126,35 @@ public class JiraClientFacade extends AgileTool {
         
         
         public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
-            if(items != null )   return null;
+            if(items == null )   return null;
             
+            System.out.println("Receieved workitems to update JIRA. Count " + items.size() );
             Map<String, Integer> kanbanStatusMap = getPhysicalKanbanStatusMap();
             JiraClient client = getJiraClient(authAttrs);
             
             Collection<WorkItem> updatedItems = new ArrayList<WorkItem>();
             for(WorkItem item: items ){
                 Integer itemKanbanStatus  = kanbanStatusMap.get(item.getPhysicalKanbanStatus());
+                System.out.println("Processing item " + item.getId() );
                 if(null ==  itemKanbanStatus){
-                    System.out.println("Found unsupported kanban status "+ item.getPhysicalKanbanStatus() + " for item "+ item.getId());
+                    System.out.println("Found unsupported kanban status "+ item.getPhysicalKanbanStatus() + ". Skipping update" );
+                    continue;
                 }
+                
                 try {
                     Issue issue = client.getIssue(item.getId());
                     Status status = issue.getStatus();
-                    if(itemKanbanStatus == 1){
-                        issue.update().field(Field.STATUS, "In Progress").execute();
+                    String jiraTransition = getNewJiraTransition(status.getName(), itemKanbanStatus);
+                    
+                    if(jiraTransition == null) {
+                        System.out.println("Skipping update as no status change. Kanban Status = " +  item.getPhysicalKanbanStatus() + ", Jira Status = " + status.getName()); 
+                        continue;
                     }
+                    
+                    System.out.println("Applying transition " + jiraTransition + ". Kanban Status = " +  item.getPhysicalKanbanStatus() + ", Current Jira Status = " + status.getName());
+                    issue.transition().execute(jiraTransition);
                 } catch (JiraException ex) {
-                    System.out.println("Failed to retrieve JIRA issue " + item.getId());
+                    System.out.println("Failed to retrieve/update JIRA issue " + item.getId());
                     ex.printStackTrace();
                 }
             }
@@ -152,7 +162,55 @@ public class JiraClientFacade extends AgileTool {
             return null;
         }
     
+        private final static String STATUS_OPEN = "Open";
+        private final static String STATUS_REOPENED = "Reopened";
+        private final static String STATUS_INPROGRESS = "In Progress";
+        private final static String STATUS_RESOLVED = "Resolved";
+        private final static String STATUS_CLOSED = "Closed";
         
+        private final static String TRANSITION_OPEN = "Open";
+        private final static String TRANSITION_REOPEN = "Re-Open";
+        private final static String TRANSITION_INPROGRESS = "In Progress";
+        private final static String TRANSITION_RESOLVE = "Resolve";
+        private final static String TRANSITION_CLOSE = "Close";
+        private String getNewJiraTransition(String currentJiraStatus, int itemKanbanStatus){
+           switch(itemKanbanStatus){
+               case 0:{
+                   //Backlog
+                   if(currentJiraStatus == null) return TRANSITION_OPEN;
+                   if(!currentJiraStatus.equals(STATUS_OPEN) && !currentJiraStatus.equals(STATUS_REOPENED)) return TRANSITION_REOPEN;
+                   break;
+               }
+               case 1:{
+                   //Development in progress
+                   if(currentJiraStatus == null || !currentJiraStatus.equals(STATUS_INPROGRESS)) return TRANSITION_INPROGRESS;
+                   break;
+               }
+               case 2:{
+                   //Development complete
+                   if(currentJiraStatus == null || !currentJiraStatus.equals(STATUS_RESOLVED)) return TRANSITION_RESOLVE;
+                   break;
+               }
+               case 3:{
+                   //Testing in Progress
+                   if(currentJiraStatus == null || currentJiraStatus.equals(STATUS_OPEN) || currentJiraStatus.equals(STATUS_REOPENED)) return TRANSITION_INPROGRESS;
+                   if(currentJiraStatus.equals(STATUS_INPROGRESS)) return TRANSITION_RESOLVE;
+                   break;
+               }
+               case 4:{
+                   //Done
+                   if(currentJiraStatus == null || !currentJiraStatus.equals(STATUS_RESOLVED)) return TRANSITION_RESOLVE;
+                   break;
+               }
+               case 5:{
+                   //Accepted
+                   if(currentJiraStatus == null || !currentJiraStatus.equals(STATUS_CLOSED)) return TRANSITION_CLOSE;
+                   break;
+               }
+           }
+           
+           return null;
+        }
         private JiraClient getJiraClient(Map<String, String> authAttrs){
 		String userName = authAttrs.get("userName");
 		String password = authAttrs.get("password");
