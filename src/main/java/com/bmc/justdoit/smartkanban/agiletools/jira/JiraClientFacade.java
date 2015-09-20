@@ -57,7 +57,7 @@ public class JiraClientFacade extends AgileTool {
 		
 		String jql = 
 				//Limestone-IC03 Hawk Eye
-				"project = TOM AND issuetype in (Story, Spike, \"Technical debt\", Bug, Improvement)  AND Sprint in (" + query.getSprint() + ")" +
+				"project = " + query.getProject()+" AND issuetype in (Story, Spike, \"Technical debt\", Bug, Improvement)  AND Sprint in (\"" + query.getSprint() + "\")" +
 						" AND \"Scrum Team Name\" =  " + "\"" + query.getTeam() + "\"";
 		
 		System.out.println(jql);
@@ -237,7 +237,7 @@ public class JiraClientFacade extends AgileTool {
 		wItem.setStatus(issue.getStatus().getName());
 		wItem.setEstimation("" + issue.getTimeEstimate());
 		wItem.setRemaining("" + (issue.getTimeEstimate() - issue.getTimeSpent() ));
-		
+		wItem.setAssignee((issue.getAssignee()==null)?"unassigned" : issue.getAssignee().getDisplayName());
 		return wItem;
 	}
 	

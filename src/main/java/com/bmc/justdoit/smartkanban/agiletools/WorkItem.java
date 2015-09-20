@@ -21,6 +21,9 @@ public class WorkItem {
     String description;
     String acceptanceCriteria;
     String physicalKanbanStatus;
+    String assignee;
+
+    
     WorkItemType type;
     
     List<WorkItem> subTaks;
@@ -103,5 +106,12 @@ public class WorkItem {
 
     public void setPhysicalKanbanStatus(String physicalKanbanStatus) {
         this.physicalKanbanStatus = physicalKanbanStatus;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+    public String getAssignee() {
+        return assignee;
     }
 }

@@ -1,0 +1,112 @@
+<html>
+<body>
+	<style type="text/css">
+		.sticky{
+			display: inline-block;
+			border-style: solid;
+			border-width: 1px;
+			border-color: grey;
+			padding: 5px;
+		}
+		.stickyHeader{
+
+			display: block;
+			height: 110px;
+			border-style: solid;
+			border-width: 0px;
+			border-color: grey;
+			padding: 5px;
+
+		}
+
+		.stickySummary{
+			display: inline-block;
+			float: left;
+			width: 200px;
+			padding-top:5px 
+		}
+
+		.qrcode{	
+			display: inline-block;
+			width: 100px;
+			height: 100px;
+			border-style: solid;
+			border-width: 0px;
+			border-color: grey;
+			padding: 5px;
+		}
+		.headerLabel{
+			padding: 1px;
+			display: block;
+		}
+		.task{
+			padding-top: 10px;
+			display: block;
+			width: 320px;
+		}
+		.pin{
+			width: 150;
+			display: block;
+			text-align: right;
+		}
+
+		.headerPin{
+			width: 150;
+			display: block;
+			text-align: left;
+			float: right;
+		}
+
+		.statusHeaderName{
+			display: inline-block;
+			float: right;
+			width: 200px;
+			padding-top:5px 
+		}
+
+		.statusHeaderLabel{
+			padding: 30px;
+			display: block;
+			font-size: 22px;
+		}
+
+	</style>
+</body>
+<head>
+	<title>Smart Kanban Stickies</title>
+</head>
+<body>
+	<h2> Status Header Stickies </h2>
+	<div class="sticky">
+		<div class="stickyHeader"> 
+			<img class="qrcode" src="qrcode.png">
+			<div class="statusHeaderName">
+				<div class="headerPin"><img src="pin.jpg"></div>
+				<label class="statusHeaderLabel"><b>Development In Progress</b></label>			
+			</div>
+			
+		</div>		
+		
+	</div>
+
+	<h2> Work stickies </h2>
+	<div class="sticky">
+		<div class="stickyHeader"> 
+
+			<div class="stickySummary">
+				<div class="pin"><img src="pin.jpg"></div>
+				<label class="headerLabel">User Story</label>
+				<label class="headerLabel"><b>TOM-13123</b></label>
+				<label class="headerLabel">Smijith Pichappan</label>
+				<label class="headerLabel">Estimation: 1d</label>			
+			</div>
+			<img class="qrcode" src="qrcode.png">
+		</div>
+		
+		<div class="task">
+		Quick brown fox jumped over a lazy frog. Quick brown fox jumped over a lazy frog
+		</div>	
+	</div>
+	
+</body>
+</html>

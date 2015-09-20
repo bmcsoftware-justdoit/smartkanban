@@ -5,7 +5,10 @@
  */
 package com.bmc.justdoit.smartkanban.kanban.queue;
 
+import com.bmc.justdoit.smartkanban.agiletools.SprintQuery;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
@@ -14,4 +17,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class KanbanQueue {
     public static final ConcurrentLinkedQueue CREATOR_QUEUE = new ConcurrentLinkedQueue();
     public static final ConcurrentLinkedQueue DECODER_QUEUE = new ConcurrentLinkedQueue();
+    
+    public static final BlockingQueue<SprintQuery> STICKY_REQUEST_QUEUE = new LinkedBlockingQueue<SprintQuery>();
 }
