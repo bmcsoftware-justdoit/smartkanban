@@ -32,13 +32,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 @Path("kanban/stickies/{requestId}")
 public class KanbanStickies {
 
-    @Context
-    private UriInfo context;
-
-    public KanbanStickies() {
-
-    }
-
     @GET
     @Produces("application/json")
     public List<WorkItem> getWorkItem(@Context ServletContext context, @PathParam("requestId") String requestId) {
@@ -49,8 +42,8 @@ public class KanbanStickies {
 
             File requestDir = new File(requestPath);
             File[] files = requestDir.listFiles();
-            System.out.println(">>>>>>>>> " + requestPath);
-            System.out.println(">>>>>>>>> " + files.length);
+            // System.out.println(">>>>>>>>> " + requestPath);
+            // System.out.println(">>>>>>>>> " + files.length);
             ObjectMapper mapper = new ObjectMapper();
             List<WorkItem> items = new ArrayList<WorkItem>();
             
@@ -63,6 +56,7 @@ public class KanbanStickies {
             return items;
         } catch (IOException ex) {
             System.out.println("Unable to fetch list of work items.");
+            ex.printStackTrace();
             return null;
         }
     }
