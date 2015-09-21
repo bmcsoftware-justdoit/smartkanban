@@ -48,4 +48,9 @@ public class SprintQuery {
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
+    
+    @Override
+    public String toString(){
+        return "Team: " + team + ", Sprint: " + sprint + ", Project: " + project;
+    }
 }

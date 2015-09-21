@@ -21,20 +21,20 @@ import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
  * @author smijithkp
  */
 
-@Path("/rapidboard")
+//@Path("/rapidboard")
 public class RapidBoardResource {
-	@Context
-	private UriInfo context;
+//	@Context
+//	private UriInfo context;
 
 	public RapidBoardResource() {
 
 	}
 
-	@GET
-	@Produces("application/json")
-	public WorkItem list(Map<String, String> authAttrs) {
-		AgileToolIntf toolIntf = AgileToolFactory.getAgileToolIntf();
-		return null;
-	}
+//	@GET
+//	@Produces("application/json")
+//	public WorkItem list(Map<String, String> authAttrs) {
+//		AgileToolIntf toolIntf = AgileToolFactory.getAgileToolIntf();
+//		return null;
+//	}
 
 }

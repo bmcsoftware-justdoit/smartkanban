@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Smart Kanban Stickies</title>
+        <link href="css/sticky.css" rel="stylesheet">
+    </head>
+    <body onload="getStickies()">
+        <script src="js/jquery-1.9.1.js"></script>
+        <script language="JavaScript">
+        function getStickies() {
+            requestId = window.location.search.split("=")[1];
+            self = this;
+            $.ajax({
+                url: "http://" + window.location.host + "/smartkanban/rest/kanban/stickies/" + requestId,
+                type: "GET",
+                processData: false,
+                cache: false,
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    jQuery.each(data, function () {
+                        var newDiv = document.createElement("div");
+                        newDiv.className = "cutter";
+                        newDiv.innerHTML = '<div class="sticky"><div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div><div class="task">'+this.title+'</div></div>';
+                        $('#stickyHolder').append(newDiv);
+                        return;
+                    });
+
+                },
+                error: function (data) {
+                    alert("Could not generate kanban stickies. " + data);
+                    return;
+                }
+            });
+        }
+        </script>
+        <h2> Work stickies </h2>
+        <div id="stickyHolder" />
+    </body>
+</html>

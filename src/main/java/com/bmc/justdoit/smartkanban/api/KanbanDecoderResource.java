@@ -5,7 +5,7 @@
 package com.bmc.justdoit.smartkanban.api;
 
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
-import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderResponse;
+import com.bmc.justdoit.smartkanban.api.objects.KanbanResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoder;
 import com.bmc.justdoit.smartkanban.kanban.error.KanbanException;
@@ -22,14 +22,14 @@ import org.apache.commons.lang.exception.ExceptionUtils;
  *
  * @author gokumar
  */
-@Path("/kanban/decoder")
+@Path("/kanban/decode")
 public class KanbanDecoderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public KanbanDecoderResponse postJson(KanbanDecoderRequest request) {
-        KanbanDecoderResponse response = new KanbanDecoderResponse();
+    public KanbanResponse postJson(KanbanDecoderRequest request) {
+        KanbanResponse response = new KanbanResponse();
 
         try {
             if (request.isAsync()) {

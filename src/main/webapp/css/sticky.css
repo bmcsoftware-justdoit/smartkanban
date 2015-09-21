@@ -1,0 +1,86 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21 Sep, 2015, 21 Sep, 2015 10:55:23 AM
+    Author     : gokumar
+*/
+
+.cutter {
+    float: left;
+    border-style: dashed;
+    display: inline-block;
+    border-width: 1px;
+    border-color: grey;
+}
+.sticky{
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    padding: 5px;
+    margin: 10px;
+}
+.stickyHeader{
+
+    display: block;
+    height: 110px;
+    border-style: solid;
+    border-width: 0px;
+    border-color: grey;
+    padding: 5px;
+
+}
+
+.stickySummary{
+    display: inline-block;
+    float: left;
+    width: 200px;
+    padding-top:5px 
+}
+
+.qrcode{	
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-style: solid;
+    border-width: 0px;
+    border-color: grey;
+    padding: 5px;
+}
+.headerLabel{
+    padding: 1px;
+    display: block;
+}
+.task{
+    padding-top: 10px;
+    display: block;
+    width: 320px;
+}
+.pin{
+    width: 150;
+    display: block;
+    text-align: right;
+}
+
+.headerPin{
+    width: 150;
+    display: block;
+    text-align: left;
+    float: right;
+}
+
+.statusHeaderName{
+    display: inline-block;
+    float: right;
+    width: 200px;
+    padding-top:5px 
+}
+
+.statusHeaderLabel{
+    padding: 30px;
+    display: block;
+    font-size: 22px;
+}

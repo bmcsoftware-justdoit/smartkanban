@@ -5,7 +5,7 @@
 package com.bmc.justdoit.smartkanban.api;
 
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
-import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderResponse;
+import com.bmc.justdoit.smartkanban.api.objects.KanbanResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanImageUploadResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoder;

@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author gokumar
  */
 @XmlRootElement
-public class KanbanDecoderResponse extends ErrorResponse {
+public class KanbanResponse extends ErrorResponse {
     private Map<String, Object> attributes = new HashMap<String, Object>();
     private String result;
 
@@ -33,7 +33,7 @@ public class KanbanDecoderResponse extends ErrorResponse {
         attributes.put(key, value);
     }
 
-    public KanbanDecoderResponse() {
+    public KanbanResponse() {
         super();
     }
 }
