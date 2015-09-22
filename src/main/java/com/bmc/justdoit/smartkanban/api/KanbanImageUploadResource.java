@@ -5,28 +5,17 @@
 package com.bmc.justdoit.smartkanban.api;
 
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
-import com.bmc.justdoit.smartkanban.api.objects.KanbanResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanImageUploadResponse;
-import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
-import com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoder;
-import com.bmc.justdoit.smartkanban.kanban.error.KanbanException;
-import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -66,7 +55,7 @@ public class KanbanImageUploadResource {
             // save the file to the server
             saveFile(fileInputStream, filePath);
         } catch (IOException ex) {
-            System.out.println("SmartKanban processing failed.");
+            System.out.println("Kanban upload failed.");
             System.out.println("Reason: " + ex.getMessage());
             response.setErrorCode(ErrorResponse.NESTED_ERROR);
             response.setErrorMessage("Upload failed! Could not save file on the server.");

@@ -130,7 +130,7 @@ public class KanbanDecoder implements Runnable {
             }
 
         } catch (IOException ex) {
-            KanbanException e = new KanbanException("Encounted error during decode! Please contact SmartKanban Admin!");
+            KanbanException e = new KanbanException("Encounted error during decode! Please contact AgileBuddy Admin!");
             e.setErrorCode(ErrorCode.COULD_NOT_DECODE_KANBAN);
             Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later." + e.getMessage());
             throw e;

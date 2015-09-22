@@ -49,7 +49,7 @@ public class KanbanGeneratorResource {
             response.setObjectId(request.getRequestId());
             response.setResult("Added Kanban board creator request to queue!");
         } catch (Exception ex) {
-            System.out.println("Processing SmartKanban failed.");
+            System.out.println("Processing Kanban failed.");
             System.out.println("Reason: " + ex.getMessage());
             response.setObjectId(request.getRequestId());
             response.setErrorCode(ErrorResponse.NESTED_ERROR);

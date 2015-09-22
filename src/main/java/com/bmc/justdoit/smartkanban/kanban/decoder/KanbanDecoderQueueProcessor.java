@@ -20,7 +20,7 @@ public class KanbanDecoderQueueProcessor extends HttpServlet implements Runnable
 
     @Override
     public void init() throws ServletException {
-        System.out.println("Initializing KanbanDecoder Queue");
+        System.out.println("Initializing Kanban Decoder Queue");
         new Thread(new KanbanDecoderQueueProcessor()).start();
     }
 

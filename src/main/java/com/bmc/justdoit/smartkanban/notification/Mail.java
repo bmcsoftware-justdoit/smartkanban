@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMessage;
 public class Mail {
 
     public static boolean sendMail(String to, String subject, String body) {
-        String from = "DO-NOT-REPLY@smartkanban.com";
+        String from = "DO-NOT-REPLY@agilebuddy.com";
         String host = "webmail.bmc.com";
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", host);

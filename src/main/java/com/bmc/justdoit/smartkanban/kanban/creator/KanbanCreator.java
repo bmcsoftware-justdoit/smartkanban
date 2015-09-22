@@ -53,7 +53,7 @@ public class KanbanCreator implements Runnable {
             String requestFolder = path + "/" + request.getRequestId();
             new File(requestFolder).mkdirs();
 
-            generateStickies(query, items, tool.getSupportedPhysicalKanbanStatuses(), requestFolder);
+            generateStickies(items, requestFolder);
             
             String subject = "Kanban Generator Process: Successful!";
             StringBuilder body = new StringBuilder();
@@ -80,7 +80,7 @@ public class KanbanCreator implements Runnable {
         }
     }
 
-    private void generateStickies(SprintQuery query, List<WorkItem> items, Set<String> columnHeaders, String requestFolder) throws FileNotFoundException, WriterException, IOException {
+    private void generateStickies(List<WorkItem> items, String requestFolder) throws FileNotFoundException, WriterException, IOException {
         int qrCodeWidth = 100; //px
         int qrCodeHeight = 100; //px
         
@@ -94,6 +94,9 @@ public class KanbanCreator implements Runnable {
                 printWorkItem(subTask, requestFolder, qrCodeHeight, qrCodeWidth);
             }
         }
+        
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.writeValue(new File(requestFolder + "/items.json"), items);
     }
 
     private void printWorkItem(WorkItem item, String directory, int qrCodeHeight, int qrCodeWidth) throws WriterException, IOException {

@@ -1,25 +1,14 @@
 package com.bmc.justdoit.smartkanban.api;
 
-import java.util.Map;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
-import com.bmc.justdoit.smartkanban.agiletools.AgileToolFactory;
-import com.bmc.justdoit.smartkanban.agiletools.AgileToolIntf;
 import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
-import com.bmc.justdoit.smartkanban.agiletools.WorkItemType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,7 +19,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author smijithkp
  */
 @Path("kanban/stickies/{requestId}")
-public class KanbanStickies {
+public class KanbanStickiesResource {
 
     @GET
     @Produces("application/json")
@@ -38,14 +27,14 @@ public class KanbanStickies {
 
         try {
             String path = context.getRealPath("generator-requests");
-            String requestPath = path + "/" + requestId;
+            String requestPath = path + "/" + requestId;// + "/items.json";
 
-            File requestDir = new File(requestPath);
-            File[] files = requestDir.listFiles();
-            // System.out.println(">>>>>>>>> " + requestPath);
-            // System.out.println(">>>>>>>>> " + files.length);
-            ObjectMapper mapper = new ObjectMapper();
+            File[] files = new File(requestPath).listFiles();
             List<WorkItem> items = new ArrayList<WorkItem>();
+            
+            ObjectMapper mapper = new ObjectMapper();
+//            WorkItem item = mapper.readValue(itemsFile, WorkItem.class);
+//            System.out.println("Items: " + items.size());
             
             for (File file : files) {
                 if (file.getName().contains(".json")) {

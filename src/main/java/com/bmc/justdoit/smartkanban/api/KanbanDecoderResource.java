@@ -40,10 +40,10 @@ public class KanbanDecoderResource {
                 KanbanDecoder kanbanDecoder = new KanbanDecoder(request);
                 kanbanDecoder.decodeKanbanBoard();
                 response.setObjectId(request.getRequestId());
-                response.setResult("Processed SmartKanban board and updated agile tool successfully.");
+                response.setResult("Processed Kanban board and updated agile tool successfully.");
             }
         } catch (KanbanException ex) {
-            System.out.println("Processing SmartKanban failed.");
+            System.out.println("Processing Kanban failed.");
             System.out.println("Reason: [" + ex.getErrorCode().toString() + "] " + ex.getMessage());
             response.setObjectId(request.getRequestId());
             response.setErrorCode(ErrorResponse.NESTED_ERROR);

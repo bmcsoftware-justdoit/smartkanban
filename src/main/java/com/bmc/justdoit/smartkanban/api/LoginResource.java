@@ -6,7 +6,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.bmc.justdoit.smartkanban.agiletools.AgileToolFactory;
@@ -33,10 +32,10 @@ public class LoginResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public LoginResponse login(LoginRequest request) {
-		System.out.println("Receieve login request for user " +  request.getLoginId());
+		System.out.println("Receieved login request for user " +  request.getLoginId());
 		AgileToolIntf toolIntf = AgileToolFactory.getAgileToolIntf();
 		LoginResponse respData = toolIntf.login(request);
-		System.out.println("Preparing  response " );
+		System.out.println("Preparing response" );
 		//Response resp = Response.status(200).entity(respData).header("Access-Control-Allow-Origin" , "*").build();
 		//System.out.println(resp);
 		return respData;
