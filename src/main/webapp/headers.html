@@ -1,74 +1,39 @@
 <html>
     <head>
-        <title>Smart Kanban Stickies</title>
+        <title>Agile Buddy Stickies</title>
         <link href="css/sticky.css" rel="stylesheet">
     </head>
-    <body>
+    <body onload="getStickies()">
+        <script src="js/jquery-1.9.1.js"></script>
+        <script language="JavaScript">
+        function getStickies() {
+            requestId = window.location.search.split("=")[1];
+            self = this;
+            $.ajax({
+                url: "http://" + window.location.host + "/smartkanban/rest/kanban/stickies/headers",
+                type: "GET",
+                processData: false,
+                cache: false,
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    jQuery.each(data, function () {
+                        var newDiv = document.createElement("div");
+                        newDiv.className = "cutter";
+                        newDiv.innerHTML = '<div class="sticky"><div class="stickyHeader"><img class="qrcode" src="images/'+this.key+'.jpg"><div class="statusHeaderName"><div class="headerPin"><img src="images/pin.JPG"></div><label class="statusHeaderLabel"><b>'+this.label+'</b></label></div></div></div>';
+                        $('#stickyHolder').append(newDiv);
+                        return;
+                    });
+
+                },
+                error: function (data) {
+                    alert("Could not generate kanban stickies. " + data);
+                    return;
+                }
+            });
+        }
+        </script>
         <h2> Status Header Stickies </h2>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/backlog.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Sprint Backlog</b></label>			
-                    </div>
-                </div>		
-            </div>
-        </div>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/devinprogress.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Development In Progress</b></label>			
-                    </div>
-                </div>		
-            </div>
-        </div>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/devcomplete.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Development Complete</b></label>			
-                    </div>
-                </div>		
-            </div>
-        </div>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/testinprogress.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Testing In Progress</b></label>			
-                    </div>
-                </div>		
-            </div>
-        </div>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/done.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Done</b></label>			
-                    </div>
-                </div>		
-            </div>
-        </div>
-        <div class="cutter">
-            <div class="sticky">
-                <div class="stickyHeader"> 
-                    <img class="qrcode" src="images/accepted.png">
-                    <div class="statusHeaderName">
-                        <div class="headerPin"><img src="images/pin.JPG"></div>
-                        <label class="statusHeaderLabel"><b>Accepted</b></label>			
-                    </div>
-                </div>		
-            </div>	</div>
+        <div id="stickyHolder" />
     </body>
 </html>

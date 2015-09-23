@@ -5,32 +5,64 @@
  */
 package com.bmc.justdoit.smartkanban.agiletools;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  *
  * @author spichapp
  */
 public abstract class AgileTool implements AgileToolIntf {
-    
-    private final static Map<String, Integer>  PHYSICAL_KANBAN_STATUS_MAP;
-    static{
-        PHYSICAL_KANBAN_STATUS_MAP = new HashMap<String, Integer>();
-        PHYSICAL_KANBAN_STATUS_MAP.put("Backlog", 0);
-        PHYSICAL_KANBAN_STATUS_MAP.put("Develepment In Progress", 1);
-        PHYSICAL_KANBAN_STATUS_MAP.put("Development Complete", 2);
-        PHYSICAL_KANBAN_STATUS_MAP.put("Testing In Progress", 3);
-        PHYSICAL_KANBAN_STATUS_MAP.put("Done", 4);
-        PHYSICAL_KANBAN_STATUS_MAP.put("Accepted", 5);
+
+    private final static List<PhysicalKanbanStatus> PHYSICAL_KANBAN_STATUS = 
+            new ArrayList<PhysicalKanbanStatus>();
+
+    static {
+        PhysicalKanbanStatus header = new PhysicalKanbanStatus();
+        header.setKey(0);
+        header.setQrcodeData("#0");
+        header.setLabel("Sprint Backlog");
+        header.setDescription("Stories/Tasks backlog");
+        PHYSICAL_KANBAN_STATUS.add(header);
+        
+        header = new PhysicalKanbanStatus();
+        header.setKey(1);
+        header.setQrcodeData("#1");
+        header.setLabel("Development In Progress");
+        header.setDescription("Tasks/sub-tasks in development phase");
+        PHYSICAL_KANBAN_STATUS.add(header);
+        
+        header = new PhysicalKanbanStatus();
+        header.setKey(2);
+        header.setQrcodeData("#2");
+        header.setLabel("Development Complete");
+        header.setDescription("Tasks/sub-tasks' development is complete");
+        PHYSICAL_KANBAN_STATUS.add(header);
+        
+        header = new PhysicalKanbanStatus();
+        header.setKey(3);
+        header.setQrcodeData("#3");
+        header.setLabel("Testing In Progress");
+        header.setDescription("Tasks/sub-tasks in testing phase");
+        PHYSICAL_KANBAN_STATUS.add(header);
+        
+        header = new PhysicalKanbanStatus();
+        header.setKey(4);
+        header.setQrcodeData("#4");
+        header.setLabel("Done");
+        header.setDescription("Story/Task are done and waiting for approval from PO");
+        PHYSICAL_KANBAN_STATUS.add(header);
+        
+        header = new PhysicalKanbanStatus();
+        header.setKey(5);
+        header.setQrcodeData("#5");
+        header.setLabel("Accepted");
+        header.setDescription("Stories/Tasks ready for delivery");
+        PHYSICAL_KANBAN_STATUS.add(header);
     }
     
-    public Set<String> getSupportedPhysicalKanbanStatuses() {
-        return PHYSICAL_KANBAN_STATUS_MAP.keySet();
-    }
-    
-    public Map<String, Integer> getPhysicalKanbanStatusMap(){
-        return PHYSICAL_KANBAN_STATUS_MAP;
+    public Collection<PhysicalKanbanStatus> getSupportedPhysicalKanbanStatuses(){
+        return PHYSICAL_KANBAN_STATUS;
     }
 }

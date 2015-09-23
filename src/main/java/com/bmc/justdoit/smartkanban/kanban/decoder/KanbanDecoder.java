@@ -6,6 +6,7 @@
 package com.bmc.justdoit.smartkanban.kanban.decoder;
 
 import com.bmc.justdoit.smartkanban.agiletools.AgileToolFactory;
+import com.bmc.justdoit.smartkanban.agiletools.PhysicalKanbanStatus;
 import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.error.ErrorCode;
@@ -19,8 +20,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,10 +75,15 @@ public class KanbanDecoder implements Runnable {
                 List<QRCodeData> headers = new ArrayList<QRCodeData>();
                 String qrCodeData;
                 String present;
+                Set<String> labels = new HashSet<String>();
+                for (PhysicalKanbanStatus status : AgileToolFactory.getAgileToolIntf().getSupportedPhysicalKanbanStatuses()) {
+                    labels.add(status.getQrcodeData());
+                }
+
                 for (QRCodeData qrCode : qrCodes) {
                     qrCodeData = qrCode.getData();
                     present = null;
-                    for (String header : AgileToolFactory.getAgileToolIntf().getSupportedPhysicalKanbanStatuses()) {
+                    for (String header : labels) {
                         if (qrCodeData.contains(header)) {
                             present = header;
                             break;
@@ -100,7 +108,7 @@ public class KanbanDecoder implements Runnable {
 
                 headerNames = new ArrayList<String>();
                 for (QRCodeData headerQRCode : headers) {
-                    String headerName = headerQRCode.getData();
+                    String headerName = getHeaderName(headerQRCode.getData());
                     headerNames.add(headerName);
                 }
 
@@ -122,7 +130,7 @@ public class KanbanDecoder implements Runnable {
                 }
 
                 AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
-               /* if (status) {
+                /* if (status) {
                     Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Successful!", "[" + requestId + "] Successfully processed Kanban board and updated Jira!");
                 }else{
                     Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Failed!", "[" + requestId + "] Failed to process Kanban board and updated Jira! Please try again later.");
@@ -170,5 +178,16 @@ public class KanbanDecoder implements Runnable {
             columnWiseQRCodeData.put(headerNames.get(headerIndx), currentHeaderTasks);
         }
         return columnWiseQRCodeData;
+    }
+
+    private String getHeaderName(String data) {
+        String label = null;
+        for (PhysicalKanbanStatus status : AgileToolFactory.getAgileToolIntf().getSupportedPhysicalKanbanStatuses()) {
+            if(status.getQrcodeData().equals(data)){
+                label = status.getLabel();
+                break;
+            }
+        }
+        return label;
     }
 }

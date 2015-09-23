@@ -16,10 +16,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 /**
  * REST Web Service
  *
- * @author smijithkp
+ * @author gokumar
  */
-@Path("kanban/stickies/{requestId}")
-public class KanbanStickiesResource {
+@Path("kanban/stickies/tasks/{requestId}")
+public class KanbanTasksStickiesResource {
 
     @GET
     @Produces("application/json")

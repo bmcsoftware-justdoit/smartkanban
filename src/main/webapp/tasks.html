@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Smart Kanban Stickies</title>
+        <title>Agile Buddy Stickies</title>
         <link href="css/sticky.css" rel="stylesheet">
     </head>
     <body onload="getStickies()">
@@ -10,7 +10,7 @@
             requestId = window.location.search.split("=")[1];
             self = this;
             $.ajax({
-                url: "http://" + window.location.host + "/smartkanban/rest/kanban/stickies/" + requestId,
+                url: "http://" + window.location.host + "/smartkanban/rest/kanban/stickies/tasks/" + requestId,
                 type: "GET",
                 processData: false,
                 cache: false,
