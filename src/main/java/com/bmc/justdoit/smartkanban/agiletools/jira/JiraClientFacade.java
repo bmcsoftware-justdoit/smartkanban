@@ -71,6 +71,7 @@ public class JiraClientFacade extends AgileTool {
                     List<Issue> subIssues = issue.getSubtasks();
                     if (subIssues != null && subIssues.size() > 0) {
                         for (Issue subIssue : subIssues) {
+                            subIssue.refresh();
                             subTasks.add(convertIssueToWorkItem(subIssue));
                         }
                     } else {
