@@ -49,8 +49,8 @@ public class KanbanImageUploadResource {
         String userRootFolder = System.getProperty("user.home");
         String requestId = UUID.randomUUID().toString();
         String fileName = fileFormDataContentDisposition.getFileName();
-        new File(userRootFolder + "/smartkanban/" + requestId).mkdirs();
-        String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileName;
+        new File(userRootFolder + "/agilebuddy/" + requestId).mkdirs();
+        String filePath = userRootFolder + "/agilebuddy/" + requestId + "/" + fileName;
         try{
             // save the file to the server
             saveFile(fileInputStream, filePath);

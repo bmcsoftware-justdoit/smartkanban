@@ -60,7 +60,7 @@ public class KanbanDecoder implements Runnable {
         try {
             System.out.println("FileName>>> " + fileName);
             String userRootFolder = System.getProperty("user.home");
-            String filePath = userRootFolder + "/smartkanban/" + requestId + "/" + fileName;
+            String filePath = userRootFolder + "/agilebuddy/" + requestId + "/" + fileName;
             qrCodes = QRCodeDataExtractor.decodeQRCodeData(filePath);
             for (QRCodeData qrCode : qrCodes) {
                 System.out.println(qrCode.getData() + ":" + qrCode.getPoint().toString());
