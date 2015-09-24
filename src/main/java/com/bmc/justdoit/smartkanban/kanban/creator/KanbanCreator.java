@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -62,7 +61,7 @@ public class KanbanCreator implements Runnable {
             
             body.append("To print headers, click ").append(headersUrl);
             body.append("\n");
-            body.append("To print tasks' stickies, click ").append(tasksUrl);
+            body.append("To print work stickies, click ").append(tasksUrl);
             
             boolean sendMailStatus = Mail.sendMail(request.getEmailId(), subject, body.toString());
             System.out.println("Stickies generated.");
