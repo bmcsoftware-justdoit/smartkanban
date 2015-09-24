@@ -2,6 +2,21 @@
     <head>
         <title>Agile Buddy Stickies</title>
         <link href="css/sticky.css" rel="stylesheet">
+        <style type="text/css">
+            @media print{
+                body * {
+                    visibility:hidden;
+                } 
+                #stickyHolder, #stickyHolder * {
+                    visibility:visible;
+                }
+                #stickyHolder { /* aligning the printable area */
+                    position:absolute;
+                    left:40;
+                    top:40;
+                }
+            }
+        </style>
     </head>
     <body onload="getStickies()">
         <script src="js/jquery-1.9.1.js"></script>
@@ -33,7 +48,13 @@
             });
         }
         </script>
-        <h2> Status Header Stickies </h2>
-        <div id="stickyHolder" />
+        <div align="center">
+            <h1>Agile Buddy</h1>
+            <img src="images/logo.png" width="64"/>
+        </div>
+        <div align="left"><h5>Press Ctrl+P to print these stickies.</h5></div>
+        <div id="stickyHolder">
+            <h2>Status Header Stickies</h2>
+        </div>
     </body>
 </html>
