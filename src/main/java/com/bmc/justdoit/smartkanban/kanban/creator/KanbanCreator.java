@@ -59,11 +59,26 @@ public class KanbanCreator implements Runnable {
             String headersUrl = request.getUriPath() + "/headers.html";
             String tasksUrl = request.getUriPath() + "/tasks.html?requestId=" + request.getRequestId();
             
+            body.append("<h5>Hi,");
+            body.append("<br/>");
+            body.append("Thanks for using Agile Buddy!");
+            body.append("<br/>");
+            body.append("Your request for generating Kanban is successful!");
+            body.append("<br/>");
+            body.append("<br/>");
+            body.append("Next steps:");
+            body.append("<br/>");
             body.append("To print headers, click ").append(headersUrl);
-            body.append("\n");
+            body.append("<br/>");
             body.append("To print work stickies, click ").append(tasksUrl);
+            body.append("<br/>");
+            body.append("<br/>");
+            body.append("Regards,");
+            body.append("<br/>");
+            body.append("Agile Buddy</h5>");
             
-            boolean sendMailStatus = Mail.sendMail(request.getEmailId(), subject, body.toString());
+            String agileBuddyLogo = request.getUriPath() + "/images/logo_64.png";
+            boolean sendMailStatus = Mail.sendMail(request.getEmailId(), subject, body.toString(), agileBuddyLogo);
             System.out.println("Stickies generated.");
             if(sendMailStatus){
                 System.out.println("Mail sent successfully.");
