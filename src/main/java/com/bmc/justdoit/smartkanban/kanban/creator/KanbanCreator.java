@@ -61,12 +61,14 @@ public class KanbanCreator implements Runnable {
             
             body.append("<h5>Hi,");
             body.append("<br/>");
+            body.append("<br/>");
             body.append("Thanks for using Agile Buddy!");
             body.append("<br/>");
             body.append("Your request for generating Kanban is successful!");
             body.append("<br/>");
             body.append("<br/>");
             body.append("Next steps:");
+            body.append("<br/>");
             body.append("<br/>");
             body.append("To print headers, click ").append(headersUrl);
             body.append("<br/>");
