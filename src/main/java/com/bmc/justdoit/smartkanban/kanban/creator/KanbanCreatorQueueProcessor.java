@@ -7,8 +7,6 @@ package com.bmc.justdoit.smartkanban.kanban.creator;
 
 import com.bmc.justdoit.smartkanban.api.objects.KanbanGeneratorRequest;
 import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -26,20 +24,14 @@ public class KanbanCreatorQueueProcessor extends HttpServlet implements Runnable
 
     public void run() {
         while (true) {
-            try {
-                synchronized (KanbanQueue.CREATOR_QUEUE) {
-                    while (!KanbanQueue.CREATOR_QUEUE.isEmpty()) {
-                        KanbanGeneratorRequest request = (KanbanGeneratorRequest) KanbanQueue.CREATOR_QUEUE.poll();
-                        System.out.println("Got a request to create >>>>>>>> " + request);
-                        KanbanCreator kanbanCreator = new KanbanCreator(request);
-                        Thread th = new Thread(kanbanCreator);
-                        th.start();
-                    }
-                }
-                Thread.sleep(10000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(KanbanCreatorQueueProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            KanbanGeneratorRequest request = (KanbanGeneratorRequest) KanbanQueue.CREATOR_QUEUE.poll();
+            if (request == null) {
+                continue;
             }
+            System.out.println("Got a request to create >>>>>>>> " + request);
+            KanbanCreator kanbanCreator = new KanbanCreator(request);
+            Thread th = new Thread(kanbanCreator);
+            th.start();
         }
     }
 }
