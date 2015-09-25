@@ -30,8 +30,19 @@
 }
 
 .orgTitle {
-    font-family: "Arial", "Lucida Grande", "Verdana", "Helvetica", sans-serif;
+    font-family: "Bauhaus 93";
+    /*"Arial", "Lucida Grande", "Verdana", "Helvetica", sans-serif;*/
     font-size: 1.7em;
+    font-weight: normal;
+    color:#ff5901;
+    padding-left: 6px;
+    line-height: 30px;
+}
+
+.orgTitleComic {
+    font-family: "Comic Sans MS";
+    /*"Arial", "Lucida Grande", "Verdana", "Helvetica", sans-serif;*/
+    font-size: 1.6em;
     font-weight: normal;
     color:#ff5901;
     padding-left: 6px;
@@ -86,9 +97,11 @@
 
 .BG{
 /*    background-color:#fe5000;*/
+/*    background-color:#fbb08d;*/
     background-color:#fbb08d;
-    height:600px;
+    height:100%;
     width:100%;
+    border-radius:12px;
 
 }
 .mainframe{
@@ -123,10 +136,11 @@
 
 .WhiteContainer{
     border-radius:10px;
+    border-top-left-radius:0px;
     /*background-color:#e3e3e3;*/
 /*    background-color:#e6e6e6;*/
     background-color:#ffffff;
-    border:1px solid #aebac1;
+    border:0px solid #aebac1;
     border-spacing: 2px;
     border-collapse: separate;
     height:400px;
@@ -139,16 +153,16 @@
 }
 
 .Quickactionbar{
-    float:right;
-    width:290px;
+    float:left;
+    width:215px;
     height:40px;
-    border-top-left-radius:0px;
-    border-top-right-radius:0px;
-    border-bottom-left-radius:12px;
-    border-bottom-right-radius:12px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#fe5000));
+    border-top-left-radius:12px;
+    border-top-right-radius:12px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
     background: -moz-linear-gradient(top, #4aa9e5, #2188c9);
-    vertical-align: middle;
+    vertical-align: top;
 }
 .rightDiv{
     float:right;
