@@ -70,6 +70,7 @@ public class KanbanCreator implements Runnable {
             body.append("<br/>");
             body.append("To print headers, click ").append(headersUrl);
             body.append("<br/>");
+            body.append("<br/>");
             body.append("To print work stickies, click ").append(tasksUrl);
             body.append("<br/>");
             body.append("<br/>");
