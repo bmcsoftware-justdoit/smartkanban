@@ -16,6 +16,7 @@ import com.bmc.justdoit.smartkanban.qrcode.decoder.QRCodeDataExtractor;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeData;
 import com.bmc.justdoit.smartkanban.qrcode.QRCodeDataCompareX;
 import com.google.zxing.NotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -55,7 +57,7 @@ public class KanbanDecoder implements Runnable {
         }
     }
 
-    public void decodeKanbanBoard() throws KanbanException {
+    public List<WorkItem> decodeKanbanBoard() throws KanbanException {
         List<QRCodeData> qrCodes;
         try {
             System.out.println("FileName>>> " + fileName);
@@ -119,8 +121,7 @@ public class KanbanDecoder implements Runnable {
                 for (Map.Entry<String, List<QRCodeData>> column : columnWiseQRCodeData.entrySet()) {
                     System.out.println("Tasks under " + column.getKey());
                     for (QRCodeData qRCodeData : column.getValue()) {
-                        workItem = new WorkItem();
-                        workItem.setId(qRCodeData.getData());
+                        workItem = AgileToolFactory.getAgileToolIntf().getWorkItem(authAttrs, qRCodeData.getData());
                         workItem.setPhysicalKanbanStatus(column.getKey());
 
                         System.out.println(qRCodeData.getData() + ":" + qRCodeData.getPoint().toString());
@@ -128,8 +129,14 @@ public class KanbanDecoder implements Runnable {
                     }
                     System.out.println("------------------------------");
                 }
+                
+                filePath = userRootFolder + "/agilebuddy/" + requestId + "/update.json";
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(new File(filePath), workItems);
+                
+                return workItems;
 
-                AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
+                // AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);
                 /* if (status) {
                     Mail.sendMail(authAttrs.get("loginId") + "@bmc.com", "Kanban Decoder Process: Successful!", "[" + requestId + "] Successfully processed Kanban board and updated Jira!");
                 }else{

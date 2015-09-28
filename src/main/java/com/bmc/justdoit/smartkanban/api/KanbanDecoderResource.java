@@ -4,12 +4,14 @@
  */
 package com.bmc.justdoit.smartkanban.api;
 
+import com.bmc.justdoit.smartkanban.agiletools.WorkItem;
 import com.bmc.justdoit.smartkanban.api.objects.ErrorResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoder;
 import com.bmc.justdoit.smartkanban.kanban.error.KanbanException;
 import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,16 +34,17 @@ public class KanbanDecoderResource {
         KanbanResponse response = new KanbanResponse();
 
         try {
-            if (request.isAsync()) {
-                KanbanQueue.DECODER_QUEUE.add(request);
-                response.setObjectId(request.getRequestId());
-                response.setResult("Added Kanban board to process queue!");
-            } else {
+//            if (request.isAsync()) {
+//                KanbanQueue.DECODER_QUEUE.add(request);
+//                response.setObjectId(request.getRequestId());
+//                response.setResult("Added Kanban board to process queue!");
+//            } else {
                 KanbanDecoder kanbanDecoder = new KanbanDecoder(request);
-                kanbanDecoder.decodeKanbanBoard();
+                List<WorkItem> workItems = kanbanDecoder.decodeKanbanBoard();
                 response.setObjectId(request.getRequestId());
-                response.setResult("Processed Kanban board and updated agile tool successfully.");
-            }
+                response.setWorkItems(workItems);
+                response.setResult("Processed Kanban board.");
+//            }
         } catch (KanbanException ex) {
             System.out.println("Processing Kanban failed.");
             System.out.println("Reason: [" + ex.getErrorCode().toString() + "] " + ex.getMessage());
