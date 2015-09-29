@@ -36,7 +36,7 @@
                     jQuery.each(data, function () {
                         var newDiv = document.createElement("div");
                         newDiv.className = "cutter";
-                        newDiv.innerHTML = '<div class="sticky"><div class="stickyHeader"><img class="qrcode" src="images/' + this.key + '.jpg"><div class="statusHeaderName"><div class="headerPin"><img src="images/pin.JPG"></div><label class="statusHeaderLabel"><b>' + this.label + '</b></label></div></div></div>';
+                        newDiv.innerHTML = '<div class="stickyHeader"><img class="qrcode" src="images/' + this.key + '.jpg"><div class="statusHeaderName"><div class="headerPin"><img src="images/pin.JPG"></div><label class="statusHeaderLabel"><b>' + this.label + '</b></label></div></div>';
                         $('#stickyHolder').append(newDiv);
                         return;
                     });

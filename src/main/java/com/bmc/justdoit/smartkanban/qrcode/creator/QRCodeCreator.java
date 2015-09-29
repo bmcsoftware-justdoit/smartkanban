@@ -32,6 +32,7 @@ public class QRCodeCreator {
         String charset = "ISO-8859-1"; //"UTF-8"; 
         Map hintMap = new HashMap();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        hintMap.put(EncodeHintType.MARGIN, 0);
         
         BitMatrix matrix = new MultiFormatWriter().encode(
                 new String(qrCodeData.getBytes(charset), charset),
