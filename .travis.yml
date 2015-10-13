@@ -1,1 +1,8 @@
 language: java
+notifications:
+  email:
+    recipients:
+      - gokumar@bmc.com
+      - Smijith_Pichappan@bmc.com
+    on_success: change
+    on_failure: always
