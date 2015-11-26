@@ -78,7 +78,7 @@ public class JiraClientFacade extends AgileTool {
                         System.out.println("Sub issues for issue " + wItem.getId() + ", " + subIssues);
                     }
 
-                    wItem.setSubTaks(subTasks);
+                    wItem.setSubTasks(subTasks);
                 }
             }
         } catch (JiraException e) {

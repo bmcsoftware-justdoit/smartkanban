@@ -26,7 +26,7 @@ public class WorkItem {
     
     WorkItemType type;
     
-    List<WorkItem> subTaks;
+    List<WorkItem> subTasks;
 
     public String getId() {
         return id;
@@ -84,12 +84,12 @@ public class WorkItem {
         this.acceptanceCriteria = acceptanceCriteria;
     }
 
-    public List<WorkItem> getSubTaks() {
-        return subTaks;
+    public List<WorkItem> getSubTasks() {
+        return subTasks;
     }
 
-    public void setSubTaks(List<WorkItem> subTaks) {
-        this.subTaks = subTaks;
+    public void setSubTasks(List<WorkItem> subTasks) {
+        this.subTasks = subTasks;
     }
 
     public WorkItemType getType() {

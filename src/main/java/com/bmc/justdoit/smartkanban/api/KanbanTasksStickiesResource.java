@@ -31,6 +31,7 @@ public class KanbanTasksStickiesResource {
 
             File[] files = new File(requestPath).listFiles();
             List<WorkItem> items = new ArrayList<WorkItem>();
+            List<String> subTasks = new ArrayList<String>();
             
             ObjectMapper mapper = new ObjectMapper();
 //            WorkItem item = mapper.readValue(itemsFile, WorkItem.class);
@@ -39,7 +40,16 @@ public class KanbanTasksStickiesResource {
             for (File file : files) {
                 if (file.getName().contains(".json")) {
                     WorkItem item = mapper.readValue(file, WorkItem.class);
+                    if(subTasks.contains(item.getId())){
+                        continue;
+                    }
                     items.add(item);
+                    List<WorkItem> subTasks_t = item.getSubTasks();
+                    if (subTasks_t != null && subTasks_t.size() > 0){
+                        for (WorkItem workItem : subTasks_t) {
+                            subTasks.add(workItem.getId());
+                        }
+                    }
                 }
             }
             return items;

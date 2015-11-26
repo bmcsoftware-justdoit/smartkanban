@@ -103,11 +103,11 @@ public class KanbanCreator implements Runnable {
         
         for (WorkItem item : items) {
             printWorkItem(item, requestFolder, qrCodeHeight, qrCodeWidth);
-            if (item.getSubTaks() == null || item.getSubTaks().isEmpty()) {
+            if (item.getSubTasks() == null || item.getSubTasks().isEmpty()) {
                 continue;
             }
 
-            for (WorkItem subTask : item.getSubTaks()) {
+            for (WorkItem subTask : item.getSubTasks()) {
                 printWorkItem(subTask, requestFolder, qrCodeHeight, qrCodeWidth);
             }
         }
