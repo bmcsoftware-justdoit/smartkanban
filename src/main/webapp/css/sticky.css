@@ -16,6 +16,7 @@ and open the template in the editor.
     border-color: grey;
     background-color: #ffffff;
 }
+
 .sticky{
     display: inline-block;
     border-style: solid;
@@ -24,15 +25,14 @@ and open the template in the editor.
     padding: 5px;
     margin: 10px;
 }
-.stickyHeader{
 
+.stickyHeader{
     display: block;
     height: 150px;
     border-style: solid;
     border-width: 0px;
     border-color: grey;
     padding: 5px;
-
 }
 
 .stickySummary{
