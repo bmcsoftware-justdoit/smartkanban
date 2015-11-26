@@ -16,6 +16,9 @@
                     left:40;
                     top:40;
                 }
+                div{
+                    page-break-inside: avoid;
+                }
             }
         </style>
     </head>
@@ -34,13 +37,28 @@
                 success: function (data) {
                     console.log(data);
                     jQuery.each(data, function () {
+                        var newTr = document.createElement('tr');
+                        var newTd = document.createElement('td');
+                        newTr.appendChild(newTd);
                         var newDiv = document.createElement("div");
                         newDiv.className = "cutter";
                         newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
-                        $('#stickyHolder').append(newDiv);
+                        newTd.appendChild(newDiv);
+                        innerSelf = this;
+                        innerSelf.newTd = newTd;
+                        innerSelf.requestId = self.requestId;
+                        if (this.subTasks.length > 0){
+                            jQuery.each(this.subTasks, function() {
+                                var newDiv = document.createElement("div");
+                                newDiv.className = "cutter";
+                                newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+innerSelf.requestId+'/'+this.id+'.jpg"></div>';
+                                innerSelf.newTd.appendChild(newDiv)
+                                return;
+                            });
+                        }
+                        $('#stickyHolder').append(newTr);
                         return;
                     });
-
                 },
                 error: function (data) {
                     alert("Could not generate kanban stickies. " + data);
@@ -72,8 +90,11 @@
                         <td valign="top">
                             <br/>
                             <div align="left"><h5>Press Ctrl+P to print these stickies.</h5></div>
-                            <div id="stickyHolder">
+                            <div>
                                 <h2>Work Stickies</h2>
+                                <table id="stickyHolder">
+                                    
+                                </table>
                             </div>
                         </td>
                     </tr>
