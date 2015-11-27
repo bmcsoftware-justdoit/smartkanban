@@ -2,23 +2,25 @@
     <head>
         <title>Agile Buddy Stickies</title>
         <link href="css/sticky.css" rel="stylesheet">
-        <link href="css/landing.css" rel="stylesheet">
+        <!-- <link href="css/landing.css" rel="stylesheet"> -->
         <style type="text/css">
+            @page{
+                margin: 15px;
+            }
             @media print{
-                body * {
+               body * {
                     visibility:hidden;
                 } 
                 #stickyHolder, #stickyHolder * {
                     visibility:visible;
                 }
-                #stickyHolder { /* aligning the printable area */
+                
+                 #stickyHolder { /* aligning the printable area */
                     position:absolute;
-                    left:40;
-                    top:40;
+                    left:5;
+                    top:5;
                 }
-                div{
-                    page-break-inside: avoid;
-                }
+               
             }
         </style>
     </head>
@@ -37,26 +39,22 @@
                 success: function (data) {
                     console.log(data);
                     jQuery.each(data, function () {
-                        var newTr = document.createElement('tr');
-                        var newTd = document.createElement('td');
-                        newTr.appendChild(newTd);
                         var newDiv = document.createElement("div");
-                        newDiv.className = "cutter";
+                        newDiv.className = "cutter " + this.type;
                         newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
-                        newTd.appendChild(newDiv);
-                        innerSelf = this;
-                        innerSelf.newTd = newTd;
-                        innerSelf.requestId = self.requestId;
+                        $('#stickyHolder').append(newDiv);
                         if (this.subTasks.length > 0){
                             jQuery.each(this.subTasks, function() {
                                 var newDiv = document.createElement("div");
-                                newDiv.className = "cutter";
-                                newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+innerSelf.requestId+'/'+this.id+'.jpg"></div>';
-                                innerSelf.newTd.appendChild(newDiv)
+                                newDiv.className = "cutter " + this.type;;
+                                newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.JPG"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
+                                $('#stickyHolder').append(newDiv);
                                 return;
                             });
                         }
-                        $('#stickyHolder').append(newTr);
+                        var lineDiv = document.createElement("div");
+                        lineDiv.innerHTML = "<hr size='5'>"
+                        $('#stickyHolder').append(lineDiv);
                         return;
                     });
                 },
@@ -67,39 +65,18 @@
             });
         }
         </script>
-        <div class="BG">
+       
             <div class="mainframe">
                 <div class="QuickAction">
-                    <table>
-                        <tr>
-                            <td width="7px;"></td>
-                            <td>
-                                <div class="Quickactionbar"> 
-                                    <div class="logo">
-                                        <img src="images/logo_64.png" height="28"/>
-                                        <span class="orgTitle">Agile</span><span class="orgTitleComic">Buddy</span>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-
+                     <img src="images/buddy_logo.png" height="28"/>
                 </div>
-                <table class="WhiteContainer">
-                    <tr valign="top">
-                        <td valign="top">
-                            <br/>
+                <div class="WhiteContainer">
                             <div align="left"><h5>Press Ctrl+P to print these stickies.</h5></div>
                             <div>
                                 <h2>Work Stickies</h2>
-                                <table id="stickyHolder">
-                                    
-                                </table>
+                                <div id="stickyHolder"></div>
                             </div>
-                        </td>
-                    </tr>
-                </table>
+                </div>
             </div>
-        </div>
     </body>
 </html>

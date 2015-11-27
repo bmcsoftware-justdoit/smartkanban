@@ -9,12 +9,13 @@ and open the template in the editor.
 */
 
 .cutter {
-    float: left;
+    //float: left;
     border-style: dashed;
     display: inline-block;
     border-width: 1px;
     border-color: grey;
     background-color: #ffffff;
+    margin: 4px;
 }
 
 .sticky{
@@ -82,3 +83,16 @@ and open the template in the editor.
     display: block;
     font-size: 22px;
 }
+
+.SPIKE{
+    background-color: pink;
+}
+
+.USER_STORY{
+    background-color: greenyellow;
+}
+
+.SUB_TASK{
+    background-color: khaki;
+}
+

@@ -70,14 +70,20 @@ public class JiraClientFacade extends AgileTool {
                     List<WorkItem> subTasks = new ArrayList<WorkItem>();
                     List<Issue> subIssues = issue.getSubtasks();
                     if (subIssues != null && subIssues.size() > 0) {
+                        int totalTimeEst = 0;
+                        int totalTimeSpent = 0;
                         for (Issue subIssue : subIssues) {
                             subIssue.refresh();
                             subTasks.add(convertIssueToWorkItem(subIssue));
+                            totalTimeEst += subIssue.getTimeEstimate();
+                            totalTimeSpent += subIssue.getTimeSpent();
                         }
+                        wItem.setEstimation(convertMinuteToHrOrDayString(totalTimeEst));
+                        wItem.setRemaining(convertMinuteToHrOrDayString(totalTimeEst - totalTimeSpent));
                     } else {
                         System.out.println("Sub issues for issue " + wItem.getId() + ", " + subIssues);
                     }
-
+                    
                     wItem.setSubTasks(subTasks);
                 }
             }
@@ -253,10 +259,22 @@ public class JiraClientFacade extends AgileTool {
         wItem.setType(getMappedType(issue));
         wItem.setDescription(issue.getDescription());
         wItem.setStatus(issue.getStatus().getName());
-        wItem.setEstimation("" + issue.getTimeEstimate());
-        wItem.setRemaining("" + (issue.getTimeEstimate() - issue.getTimeSpent()));
+        wItem.setEstimation(convertMinuteToHrOrDayString(issue.getTimeEstimate()));
+        wItem.setRemaining(convertMinuteToHrOrDayString(issue.getTimeEstimate() - issue.getTimeSpent()));
         wItem.setAssignee((issue.getAssignee() == null) ? "unassigned" : issue.getAssignee().getDisplayName());
         return wItem;
+    }
+    
+    private String  convertMinuteToHrOrDayString(int mins){
+        if(mins <= 0 ) return "0H";
+        int hrs = mins/3600;
+        if(hrs >= 8){
+            int days = hrs / 8;
+            int balanceHrs = hrs % 8;
+            return (days + "D" + ( (balanceHrs>0)?" " + balanceHrs+"H": "" ) );
+        }else{
+            return hrs + "H";
+        }
     }
 
     private WorkItemType getMappedType(Issue issue) {
