@@ -1,0 +1,40 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-background-calm">
+
+ <!-- Quick View Tab -->
+  <ion-tab title="Quick View" icon-off="ion-ios-lightbulb-outline" icon-on="ion-ios-lightbulb" href="#/tab/quickview">
+    <ion-nav-view name="tab-quickview"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Dashboard Tab -->
+  <!-- <ion-tab title="Status" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
+    <ion-nav-view name="tab-dash"></ion-nav-view>
+  </ion-tab> -->
+
+  <!-- Chats Tab -->
+  <!-- <ion-tab title="Chats" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats">
+    <ion-nav-view name="tab-chats"></ion-nav-view>
+  </ion-tab> -->
+
+  <!-- Update progress -->
+  <ion-tab title="Upload Work Progress" icon-off="ion-ios-recording-outline" icon-on="ion-ios-recording" href="#/tab/progress">
+    <ion-nav-view name="tab-progress"></ion-nav-view>
+  </ion-tab>
+
+    <!-- Settings Tab -->
+  <ion-tab title="Print Kanban" icon-off="ion-ios-printer-outline" icon-on="ion-ios-printer" href="#/tab/print">
+    <ion-nav-view name="tab-print"></ion-nav-view>
+  </ion-tab>
+
+
+  <!-- Settings Tab -->
+  <ion-tab title="Settings" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account">
+    <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+
+
+</ion-tabs>

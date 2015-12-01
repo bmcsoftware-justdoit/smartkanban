@@ -1,0 +1,22 @@
+<ion-view view-title="Synchronize Kanban Board with JIRA">
+  <ion-content class="padding">
+
+    <div class="list card">
+
+      <a href="#" class="item item-icon-left" ng-click="takeAndUploadPicture()">
+        <i class="icon ion-camera assertive"></i>
+        Upload from camera
+      </a>
+
+      <a href="#" class="item item-icon-left" ng-click="selectAndUploadPicture()">
+        <i class="icon ion-images assertive"></i>
+        Upload from library
+      </a>
+
+      <div class="item item-image">
+    	<img id="myImage" ng-src="data:image/jpeg;base64,{{image}}">
+  	  </div>
+
+    </div>
+ </ion-content>
+</ion-view>

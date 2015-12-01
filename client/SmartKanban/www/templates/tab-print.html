@@ -1,0 +1,59 @@
+<ion-view view-title="Setup Smart Kanban Board">
+  <ion-content class="padding">
+  	<div class="list">
+	  <label class="item item-input item-select">
+	    <div class="input-label">Select Scrum Name</div>
+	    <select ng-model="data.team">
+	    	<option>unassigned</option>
+	    	<option>Backbone</option>
+	    	<option>Beaver on Goose</option>
+	    	<option>Bog</option>
+	    	<option>Carvers</option>
+	    	<option>Faceoff</option>	    	
+	    	<option>Hawk Eye</option>
+	    	<option>One AD</option>
+	    	<option>Rockers</option>
+	    	<option>Wall-E</option>
+	    	<option>Warriors</option>
+	    </select>
+	  </label>
+	  <label class="item item-input item-select">
+	    <div class="input-label">Select Iteration</div>
+	    <select ng-model="data.sprint">
+	    	<option>Marble_IC01</option>
+	    	<option>Marble_IC02</option>
+	    	<option>Marble_IC03</option>
+	    	<option>Marble_IC04</option>
+	    	<option>Marble_IC05</option>
+	    	<option>Sprint 1</option>
+	    	<option>Sprint 2</option>
+	    	<option>Sprint 3</option>	    	
+	    </select>
+	  </label>	 
+	</div>
+
+    <button class="button button-block button-calm" ng-click=generateStickies()> Generate Kanban Stickies  </button>
+
+	<div class="list card" ng-show=stickiesGenerated>
+
+	  <p class="item item-text-wrap" >
+        Stickies will be sent to your e-mail address. Please check your e-mail and <b>do 3 simple manual steps </b> to complete Smart Kanban Board setup !!!
+      </a>
+
+      <p class="item item-icon-right" >
+        <i class="icon ion-ios-printer-outline assertive"></i>
+        1. Print stickies 
+      </a>
+
+      <p class="item item-icon-right" >
+        <i class="icon ion-scissors assertive"></i>
+        2. Cut stickies 
+      </a>
+
+      <p class="item item-icon-right" >
+        <i class="icon ion-pin assertive"></i>
+        3. Pin stickies 
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

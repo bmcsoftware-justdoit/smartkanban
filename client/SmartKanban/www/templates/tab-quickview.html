@@ -1,0 +1,34 @@
+<ion-view view-title="Quick View">
+  <ion-content class="padding">
+    <div class="list card">
+      <a href="#" class="item item-icon-left" ng-click="scanBarcode()">
+        <i class="icon ion-qr-scanner assertive"></i>
+        Scan Task QR Code
+      </a>
+    </div>
+
+    <div class="list card">
+        <div class="item item-text-wrap" ng-repeat="item in items">
+          {{item.type}}
+          <p> <b>{{item.id}}</b>&nbsp;&nbsp;{{item.title}}</p> 
+
+           <br>
+          <p>
+          <b>Status</b>&nbsp;{{item.status}} <br>
+          <b>Estimation</b>&nbsp;{{item.estimation}}
+          <b>Remaining</b>&nbsp;{{item.remaining}}
+          </p>
+          <p>
+          <b>Assigned To</b>
+          {{item.assignee}}</p>         
+
+
+          <br>
+          <p>
+          <b>Description</b> <br> {{item.description}}</p>        
+        </div>      
+    </div>
+ </ion-content>
+</ion-view>
+
+      
