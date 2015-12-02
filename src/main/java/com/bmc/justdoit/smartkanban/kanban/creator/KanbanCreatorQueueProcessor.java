@@ -23,11 +23,8 @@ public class KanbanCreatorQueueProcessor extends HttpServlet implements Runnable
     }
 
     public void run() {
-        while (true) {
-            KanbanGeneratorRequest request = (KanbanGeneratorRequest) KanbanQueue.CREATOR_QUEUE.poll();
-            if (request == null) {
-                continue;
-            }
+        KanbanGeneratorRequest request = (KanbanGeneratorRequest) KanbanQueue.CREATOR_QUEUE.poll();
+        if (request != null) {
             System.out.println("Got a request to create >>>>>>>> " + request);
             KanbanCreator kanbanCreator = new KanbanCreator(request);
             Thread th = new Thread(kanbanCreator);
@@ -35,7 +32,7 @@ public class KanbanCreatorQueueProcessor extends HttpServlet implements Runnable
         }
     }
 }
-    
+
 //    public void run(){
 //        while(true){
 //            SprintQuery query = KanbanQueue.STICKY_REQUEST_QUEUE.poll();
