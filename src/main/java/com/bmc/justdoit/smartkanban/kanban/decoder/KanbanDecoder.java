@@ -130,10 +130,11 @@ public class KanbanDecoder implements Runnable {
                     System.out.println("------------------------------");
                 }
                 
-                filePath = userRootFolder + "/agilebuddy/" + requestId + "/update.json";
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.writeValue(new File(filePath), workItems);
+//                filePath = userRootFolder + "/agilebuddy/" + requestId + "/update.json";
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.writeValue(new File(filePath), workItems);
                 
+                workItems = (List<WorkItem>) AgileToolFactory.getAgileToolIntf().getMovedWorkItems(authAttrs, workItems);
                 return workItems;
 
                 // AgileToolFactory.getAgileToolIntf().updateWorkItems(authAttrs, workItems);

@@ -32,7 +32,7 @@ public class JiraClientFacade extends AgileTool {
     private String jirServer = "http://jira-cor.bmc.com:80";
 
     public LoginResponse login(LoginRequest request) {
-		// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
         LoginResponse resp = new LoginResponse();
         resp.setErrorCode(0);
@@ -83,7 +83,7 @@ public class JiraClientFacade extends AgileTool {
                     } else {
                         System.out.println("Sub issues for issue " + wItem.getId() + ", " + subIssues);
                     }
-                    
+
                     wItem.setSubTasks(subTasks);
                 }
             }
@@ -93,11 +93,6 @@ public class JiraClientFacade extends AgileTool {
         }
 
         return wItems;
-    }
-
-    public boolean updateWorkItem(Map<String, String> authAttrs, WorkItem item) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     public List<TeamInfo> getSprintTeams(Map<String, String> authAttrs) {
@@ -127,12 +122,12 @@ public class JiraClientFacade extends AgileTool {
         return teams;
     }
 
-    public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
+    public Collection<WorkItem> getMovedWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
         if (items == null) {
             return null;
         }
 
-        System.out.println("Receieved workitems to update JIRA. Count " + items.size());
+        System.out.println("Receieved workitems to identify movements. Count " + items.size());
         Map<String, Integer> kanbanStatusMap = new HashMap<String, Integer>();
         for (PhysicalKanbanStatus status : getSupportedPhysicalKanbanStatuses()) {
             kanbanStatusMap.put(status.getLabel(), status.getKey());
@@ -140,7 +135,7 @@ public class JiraClientFacade extends AgileTool {
 
         JiraClient client = getJiraClient(authAttrs);
 
-        Collection<WorkItem> updatedItems = new ArrayList<WorkItem>();
+        Collection<WorkItem> movedItems = new ArrayList<WorkItem>();
         for (WorkItem item : items) {
             Integer itemKanbanStatus = kanbanStatusMap.get(item.getPhysicalKanbanStatus());
             System.out.println("Processing item " + item.getId());
@@ -154,9 +149,64 @@ public class JiraClientFacade extends AgileTool {
                 Status status = issue.getStatus();
                 String jiraTransition = getNewJiraTransition(status.getName(), itemKanbanStatus);
 
+                if (jiraTransition != null) {
+                    item.setTransition(jiraTransition);
+                    movedItems.add(item);
+                }
+
+            } catch (JiraException ex) {
+                System.out.println("Failed to retrieve JIRA issue " + item.getId());
+                ex.printStackTrace();
+            }
+        }
+
+        return movedItems;
+    }
+
+    public WorkItem updateWorkItem(Map<String, String> authAttrs, WorkItem item) {
+        List<WorkItem> items = new ArrayList<WorkItem>();
+        items.add(item);
+        List<WorkItem> updated = (List<WorkItem>) this.updateWorkItems(authAttrs, items);
+
+        if (updated != null && updated.size() == 1) {
+            item = updated.get(0);
+        } else {
+            item = null;
+        }
+        return item;
+    }
+
+    public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items) {
+        if (items == null) {
+            return null;
+        }
+
+        System.out.println("Receieved workitems to update JIRA. Count " + items.size());
+        Map<String, Integer> kanbanStatusMap = new HashMap<String, Integer>();
+        for (PhysicalKanbanStatus status : getSupportedPhysicalKanbanStatuses()) {
+            kanbanStatusMap.put(status.getLabel(), status.getKey());
+        }
+
+        JiraClient client = getJiraClient(authAttrs);
+
+        for (WorkItem item : items) {
+            Integer itemKanbanStatus = kanbanStatusMap.get(item.getPhysicalKanbanStatus());
+            System.out.println("Processing item " + item.getId());
+            if (null == itemKanbanStatus) {
+                System.out.println("Found unsupported kanban status " + item.getPhysicalKanbanStatus() + ". Skipping update");
+                continue;
+            }
+
+            try {
+                Issue issue = client.getIssue(item.getId());
+                Status status = issue.getStatus();
+                String jiraTransition = item.getTransition();
                 if (jiraTransition == null) {
-                    System.out.println("Skipping update as no status change. Kanban Status = " + item.getPhysicalKanbanStatus() + ", Jira Status = " + status.getName());
-                    continue;
+                    jiraTransition = getNewJiraTransition(status.getName(), itemKanbanStatus);
+                    if (jiraTransition == null) {
+                        System.out.println("Skipping update as no status change. Kanban Status = " + item.getPhysicalKanbanStatus() + ", Jira Status = " + status.getName());
+                        continue;
+                    }
                 }
 
                 System.out.println("Applying transition " + jiraTransition + ". Kanban Status = " + item.getPhysicalKanbanStatus() + ", Current Jira Status = " + status.getName());
@@ -167,7 +217,7 @@ public class JiraClientFacade extends AgileTool {
             }
         }
 
-        return null;
+        return items;
     }
 
     private final static String STATUS_OPEN = "Open";
@@ -243,7 +293,7 @@ public class JiraClientFacade extends AgileTool {
         BasicCredentials creds = new BasicCredentials(userName, password);
         JiraClient jira = new JiraClient(jirServer, creds);
 
-	    //jira.getRestClient().getHttpClient().getConnectionManager().
+        //jira.getRestClient().getHttpClient().getConnectionManager().
         return jira;
     }
 
@@ -264,15 +314,17 @@ public class JiraClientFacade extends AgileTool {
         wItem.setAssignee((issue.getAssignee() == null) ? "unassigned" : issue.getAssignee().getDisplayName());
         return wItem;
     }
-    
-    private String  convertMinuteToHrOrDayString(int mins){
-        if(mins <= 0 ) return "0H";
-        int hrs = mins/3600;
-        if(hrs >= 8){
+
+    private String convertMinuteToHrOrDayString(int mins) {
+        if (mins <= 0) {
+            return "0H";
+        }
+        int hrs = mins / 3600;
+        if (hrs >= 8) {
             int days = hrs / 8;
             int balanceHrs = hrs % 8;
-            return (days + "D" + ( (balanceHrs>0)?" " + balanceHrs+"H": "" ) );
-        }else{
+            return (days + "D" + ((balanceHrs > 0) ? " " + balanceHrs + "H" : ""));
+        } else {
             return hrs + "H";
         }
     }

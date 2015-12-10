@@ -10,7 +10,6 @@ import com.bmc.justdoit.smartkanban.api.objects.KanbanResponse;
 import com.bmc.justdoit.smartkanban.api.objects.KanbanDecoderRequest;
 import com.bmc.justdoit.smartkanban.kanban.decoder.KanbanDecoder;
 import com.bmc.justdoit.smartkanban.kanban.error.KanbanException;
-import com.bmc.justdoit.smartkanban.kanban.queue.KanbanQueue;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -43,10 +42,10 @@ public class KanbanDecoderResource {
                 List<WorkItem> workItems = kanbanDecoder.decodeKanbanBoard();
                 response.setObjectId(request.getRequestId());
                 response.setWorkItems(workItems);
-                response.setResult("Processed Kanban board.");
+                response.setResult("Decoded Kanban board.");
 //            }
         } catch (KanbanException ex) {
-            System.out.println("Processing Kanban failed.");
+            System.out.println("Decoding Kanban failed.");
             System.out.println("Reason: [" + ex.getErrorCode().toString() + "] " + ex.getMessage());
             response.setObjectId(request.getRequestId());
             response.setErrorCode(ErrorResponse.NESTED_ERROR);

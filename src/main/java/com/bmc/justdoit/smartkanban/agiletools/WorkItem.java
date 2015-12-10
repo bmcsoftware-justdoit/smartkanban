@@ -22,7 +22,15 @@ public class WorkItem {
     String acceptanceCriteria;
     String physicalKanbanStatus;
     String assignee;
+    String transition;
 
+    public String getTransition() {
+        return transition;
+    }
+
+    public void setTransition(String transition) {
+        this.transition = transition;
+    }
     
     WorkItemType type;
     

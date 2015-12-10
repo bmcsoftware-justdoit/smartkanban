@@ -22,9 +22,11 @@ public interface AgileToolIntf {
     
     public List<WorkItem> getWorkItems(Map<String, String> authAttrs, SprintQuery query);
     
-    public boolean updateWorkItem(Map<String, String> authAttrs, WorkItem item);  
+    public WorkItem updateWorkItem(Map<String, String> authAttrs, WorkItem item);  
 
     public Collection<WorkItem> updateWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items);  
 
     public Collection<PhysicalKanbanStatus> getSupportedPhysicalKanbanStatuses();
+
+    public Collection<WorkItem> getMovedWorkItems(Map<String, String> authAttrs, Collection<WorkItem> items);
 }
