@@ -129,8 +129,40 @@
                     <port>28080</port>
                     <server>TomcatServer</server>
                     <path>/smartkanban</path>
+                    <!--httpsPort>28443</httpsPort>
+                    <keystoreFile>${project.build.directory}/tomcat7.keystore</keystoreFile>
+                    <keystorePass>tomcat7</keystorePass-->
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>keytool-maven-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>clean</id>
+                    <goals>
+                        <goal>clean</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>genkey</id>
+                    <goals>
+                        <goal>generateKeyPair</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <keystore>${project.build.directory}/tomcat7.keystore</keystore>
+                <dname>cn=localhost</dname>
+                <keypass>tomcat7</keypass>
+                <storepass>tomcat7</storepass>
+                <alias>tomca7</alias>
+                <keyalg>RSA</keyalg>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 </project>

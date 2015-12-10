@@ -9,6 +9,7 @@
             @media print{
                body * {
                     visibility:hidden;
+                    -webkit-print-color-adjust: exact;
                 } 
                 #stickyHolder, #stickyHolder * {
                     visibility:visible;
@@ -40,13 +41,13 @@
                     jQuery.each(data, function () {
                         var newDiv = document.createElement("div");
                         newDiv.className = "cutter " + this.type;
-                        newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.png"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
+                        newDiv.innerHTML = '<div class="sticky"><div class="stickySummary"><div class="pin"><img src="images/pin.png"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
                         $('#stickyHolder').append(newDiv);
                         if (this.subTasks.length > 0){
                             jQuery.each(this.subTasks, function() {
                                 var newDiv = document.createElement("div");
                                 newDiv.className = "cutter " + this.type;;
-                                newDiv.innerHTML = '<div class="stickyHeader"><div class="stickySummary"><div class="pin"><img src="images/pin.png"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
+                                newDiv.innerHTML = '<div class="sticky"><div class="stickySummary"><div class="pin"><img src="images/pin.png"></div><label class="headerLabel">'+this.type+'</label><label class="headerLabel"><b>'+this.id+'</b></label><label class="headerLabel">'+this.assignee+'</label><label class="headerLabel">Estimation: '+this.estimation+'</label><label class="headerLabel">'+this.title+'</label></div><img class="qrcode" src="generator-requests/'+self.requestId+'/'+this.id+'.jpg"></div>';
                                 $('#stickyHolder').append(newDiv);
                                 return;
                             });

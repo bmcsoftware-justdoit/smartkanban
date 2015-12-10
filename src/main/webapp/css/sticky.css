@@ -28,7 +28,7 @@ and open the template in the editor.
 
 .stickyHeader{
     display: block;
-    height: 150px;
+    height: 180px;
     border-style: solid;
     border-width: 0px;
     border-color: grey;
@@ -44,8 +44,8 @@ and open the template in the editor.
 
 .qrcode{	
     display: inline-block;
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
 }
 .headerLabel{
     padding: 1px;
@@ -63,16 +63,16 @@ and open the template in the editor.
 }
 
 .headerPin{
-    width: 180px;
+    width: 400px;
     display: block;
-    text-align: left;
+    text-align: center;
     float: right;
 }
 
 .statusHeaderName{
     display: inline-block;
     float: right;
-    width: 200px;
+    width: 400px;
     padding-top:5px 
 }
 
@@ -80,7 +80,8 @@ and open the template in the editor.
     padding-left: 15px;
     padding-top: 60px;
     display: block;
-    font-size: 22px;
+    font-size: 50px;
+    text-align: center;
 }
 
 .SPIKE{
