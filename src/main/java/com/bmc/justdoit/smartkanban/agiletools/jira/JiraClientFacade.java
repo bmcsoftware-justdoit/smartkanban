@@ -40,6 +40,18 @@ public class JiraClientFacade extends AgileTool {
         attrs.put("userName", request.getLoginId());
         attrs.put("password", request.getPassword());
         resp.setAttributes(attrs);
+        
+        JiraClient client = getJiraClient(attrs);
+        try {
+            client.getIssue("TOM-16881");
+        } catch (JiraException ex) {
+            System.out.println(ex.getCause());
+            if(ex.getCause().toString().contains("Unauthorized")){
+                resp.setErrorCode(1);
+                resp.setErrorMessage("Login failed");
+            }
+        }
+        
         return resp;
     }
 
@@ -211,6 +223,8 @@ public class JiraClientFacade extends AgileTool {
 
                 System.out.println("Applying transition " + jiraTransition + ". Kanban Status = " + item.getPhysicalKanbanStatus() + ", Current Jira Status = " + status.getName());
                 issue.transition().execute(jiraTransition);
+                issue.refresh();
+                item.setStatus(issue.getStatus().getName());
             } catch (JiraException ex) {
                 System.out.println("Failed to retrieve/update JIRA issue " + item.getId());
                 ex.printStackTrace();
