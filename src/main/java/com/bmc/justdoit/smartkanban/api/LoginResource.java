@@ -31,13 +31,16 @@ public class LoginResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public LoginResponse login(LoginRequest request) {
+	public LoginResponse login(LoginRequest request) throws Exception {
 		System.out.println("Receieved login request for user " +  request.getLoginId());
 		AgileToolIntf toolIntf = AgileToolFactory.getAgileToolIntf();
 		LoginResponse respData = toolIntf.login(request);
 		System.out.println("Preparing response" );
 		//Response resp = Response.status(200).entity(respData).header("Access-Control-Allow-Origin" , "*").build();
 		//System.out.println(resp);
+                if(respData.getErrorCode() != 0){
+                    throw new Exception("Login failed");
+                }
 		return respData;
 	}
 

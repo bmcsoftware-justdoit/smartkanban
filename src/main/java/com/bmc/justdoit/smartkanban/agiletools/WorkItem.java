@@ -23,6 +23,15 @@ public class WorkItem {
     String physicalKanbanStatus;
     String assignee;
     String transition;
+    List<String> supportedPhysicalKanbanStatuses;
+
+    public List<String> getSupportedPhysicalKanbanStatuses() {
+        return supportedPhysicalKanbanStatuses;
+    }
+
+    public void setSupportedPhysicalKanbanStatuses(List<String> supportedPhysicalKanbanStatuses) {
+        this.supportedPhysicalKanbanStatuses = supportedPhysicalKanbanStatuses;
+    }
 
     public String getTransition() {
         return transition;
