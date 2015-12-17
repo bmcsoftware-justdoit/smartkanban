@@ -33,6 +33,7 @@ and open the template in the editor.
     border-width: 0px;
     border-color: grey;
     padding: 5px;
+    background-color: orange;
 }
 
 .stickySummary{
